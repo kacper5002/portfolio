@@ -25,6 +25,7 @@ services:
     volumes:
       - wordpress_data:/var/www/html
       - ./theme:/var/www/html/wp-content/themes/kacper-portfolio
+      - ./plugin/kacper-portfolio-core:/var/www/html/wp-content/plugins/kacper-portfolio-core
 
 volumes:
   database_data:
