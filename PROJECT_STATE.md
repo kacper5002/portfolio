@@ -29,7 +29,7 @@ Profesjonalne portfolio Kacpra Koszarskiego w DE / EN / PL, z ręcznymi tłumacz
 - `front-page.html` jest neutralny językowo: header, main.home-page z Post Content, footer. `/`, `/en/`, `/pl/` działają prawidłowo (HTTP 200, właściwy język i szablon).
 
 - Header używa dynamicznego bloku `kacper-portfolio/site-navigation` z pluginu: menu DE/EN/PL bez stałych ID, publiczne API Polylang Free 3.8.10, natywny link archiwum `project`, bezpieczny fallback DE bez Polylang.
-- Switcher `pll_the_languages(raw)` pokazuje DE/EN/PL, klasę `current-lang`, tłumaczenia About i homepage oraz standardowy fallback na home. Na archiwach API zwraca home języków. Testy 9 URL-i: HTTP 200, menu, aktywne linki i switcher poprawne; render PHP bez warnings/notices.
+- Switcher `pll_the_languages(raw)` pokazuje DE/EN/PL, klasę `current-lang`, tłumaczenia About i homepage oraz standardowy fallback na home. Na archiwum `project` switcher prowadzi do `/projekte/`, `/en/projekte/`, `/pl/projekte/`: natywny URL archiwum przetwarza publiczny filtr `wpml_permalink` obsługiwany przez Polylang Free; pozostałe widoki zachowują standardowe API. Testy 9 URL-i: HTTP 200, menu, aktywne linki i switcher poprawne; render PHP bez warnings/notices.
 
 ## Current Task
 Dynamiczna nawigacja i language switcher DE/EN/PL są gotowe i przetestowane. Oczekiwanie na „dalej” przed wizualnym designem headera i homepage.

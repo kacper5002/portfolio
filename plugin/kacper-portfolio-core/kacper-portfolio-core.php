@@ -376,6 +376,13 @@ function kacper_portfolio_core_render_site_navigation() {
 				continue;
 			}
 			$language = $languages[ $code ];
+			if ( is_post_type_archive( 'project' ) && has_filter( 'wpml_permalink' ) ) {
+				$archive_url = get_post_type_archive_link( 'project' );
+				if ( $archive_url ) {
+					// Public compatibility filter implemented by Polylang Free.
+					$language['url'] = apply_filters( 'wpml_permalink', $archive_url, $code );
+				}
+			}
 			$current  = ! empty( $language['current_lang'] );
 			$switcher .= '<li class="' . esc_attr( 'lang-item lang-item-' . $code . ( $current ? ' current-lang' : '' ) ) . '">';
 			$switcher .= '<a href="' . esc_url( $language['url'] ) . '" hreflang="' . esc_attr( $code ) . '" lang="' . esc_attr( $code ) . '"';
