@@ -19,27 +19,31 @@ Profesjonalne portfolio Kacpra Koszarskiego w DE / EN / PL, z ręcznymi tłumacz
 - Dynamiczny blok `kacper-portfolio/project-details`: PHP `render_callback`, dane pod tytułem projektu; pomija puste wartości.
 
 ## Current State
-- Użytkownik potwierdził działanie CMS i podstawowych stron projektów. Brak rozbudowanego designu.
-- `page.html` wyświetla tytuł H1 i treść Gutenberga pomiędzy headerem a footerem; test zwykłej strony w przeglądarce nie został jeszcze potwierdzony.
+- Homepage DE/EN/PL jest asymetrycznym hubem czterech kart: About, Projekte, Resume, Contact. Kompozycja oparta na aktualnym, obejrzanym `reference/image.png`: centralne karty, dużo whitespace, ogromny subtelny napis w tle. Referencja nie jest publicznym assetem.
+- `page.html` wyświetla tytuł H1 i treść Gutenberga pomiędzy headerem a footerem.
 - Istnieje 9 opublikowanych stron z tymczasową treścią DE/EN/PL. Grupy Polylang: About (DE 9 / EN 10 / PL 11), Resume (12 / 13 / 14), Contact (15 / 16 / 17); powiązania i szablony zweryfikowano przez API.
 - Użytkownik potwierdził konfigurację Polylang Free: Deutsch domyślny bez prefiksu, English `/en/`, Polski `/pl/`; `project` i `project_technology` obsługują wielojęzyczność.
 - Szablony `about`, `resume`, `contact` są przypisane do odpowiednich stron we wszystkich językach; bez CSS i formularza. HTTP 200 oraz właściwą treść i klasy szablonów potwierdzono dla wszystkich 9 adresów.
 - URL stron: DE `/ueber-mich/`, `/lebenslauf/`, `/kontakt/`; EN `/en/about/`, `/en/resume/`, `/en/contact/`; PL `/pl/o-mnie/`, `/pl/cv/`, `/pl/skontaktuj-sie/`. Slugi zgodne z zamówieniem.
-- Opublikowane strony główne: DE Startseite (18, `startseite`), EN Home (19, `home`), PL Strona główna (20, `strona-glowna`), powiązane przez Polylang; treść to bloki H1 „Kacper Koszarski” i akapit „Portfolio”. Startseite ustawiona natywnym API jako statyczna strona główna.
+- Opublikowane strony główne: DE Startseite (18, `startseite`), EN Home (19, `home`), PL Strona główna (20, `strona-glowna`), powiązane przez Polylang; treść to blok `kacper-portfolio/home-hub` z edytowalnymi opisami i wyborem portretu; bazowe wzorce w `theme/patterns/home-{de,en,pl}.php`. Startseite ustawiona natywnym API jako statyczna strona główna.
 - `front-page.html` jest neutralny językowo: header, main.home-page z Post Content, footer. `/`, `/en/`, `/pl/` działają prawidłowo (HTTP 200, właściwy język i szablon).
 
 - Header używa dynamicznego bloku `kacper-portfolio/site-navigation` z pluginu: menu DE/EN/PL bez stałych ID, publiczne API Polylang Free 3.8.10, natywny link archiwum `project`, bezpieczny fallback DE bez Polylang.
 - Switcher `pll_the_languages(raw)` pokazuje DE/EN/PL, klasę `current-lang`, tłumaczenia About i homepage oraz standardowy fallback na home. Na archiwum `project` switcher prowadzi do `/projekte/`, `/en/projekte/`, `/pl/projekte/`: natywny URL archiwum przetwarza publiczny filtr `wpml_permalink` obsługiwany przez Polylang Free; pozostałe widoki zachowują standardowe API. Testy 9 URL-i: HTTP 200, menu, aktywne linki i switcher poprawne; render PHP bez warnings/notices.
 
 - Motyw obsługuje light/dark: neutralne zmienne kolorów w `style.css`, `data-theme` na html, wczesna inicjalizacja w `functions.php`, asset `assets/js/theme-toggle.js`; wybór `portfolio-theme` w localStorage ma pierwszeństwo przed systemem i jest wspólny dla DE/EN/PL.
-- Przycisk sun/moon w headerze obok języków: natywny button, zmienny aria-label, widoczny fokus, bez animacji. Chrome: light/dark systemowy i ręczny, reload, DE/EN/PL, Enter, blokada storage, kontrast oraz brak błędów JS potwierdzone. CTA testowano jako tymczasowy blok w DOM; docelowy hero/CTA jeszcze nie istnieje.
+- Header homepage: kompaktowe Menu (Enter/Escape), niezmienione linki językowe i toggle. Bez JS całe menu pozostaje widoczne. `assets/css/home.css` / `assets/js/home.js`: asymetryczny desktop, dwie kolumny tablet, jedna mobile; tilt do ±3,5° tylko dla myszy, subtelne wejście i reduced motion.
+- Hub należy do motywu (`inc/home-hub.php`, natywny edytor bloku): tytuły i linki stron z WordPress/Polylang, podgląd projektu z CPT. MSP Monitoring bez featured image — prawdziwy tytuł zamiast fikcyjnego screenshotu; danych projektu nie zmieniano. Poprzedni blok selected-projects pozostaje dostępny w pluginie, ale homepage go nie używa.
+- Portret z `projectpictures/aboutme.png` dodany przez API do mediów WordPressa (ID 24), wybierany w bloku. Oryginalne zdjęcia i referencja pozostały nietknięte.
+- `page-transitions.css/js`: natywne cross-document View Transitions między kartą a main podstrony, również Wstecz. Zwykłe URL-e i linki; brak SPA, fetchowania stron i opóźniania kliknięć. Dodatkowe assety na docelowych stronach służą tylko przejściom; layouty nietknięte.
+- Testy Chrome: DE/EN/PL × 1440/1024/768/390 px × light/dark bez overflow; 12 kliknięć kart, reload/Wstecz, Menu klawiaturą, system/localStorage, reduced motion i brak tilt na dotyku. HTTP 200; brak JS errors i PHP warnings/notices. Gutenberg rozpoznaje poprawny blok hub we wszystkich trzech wersjach. Potwierdzono nienaruszone dane podstron, projektów i grupy tłumaczeń.
 
 ## Current Task
-Podstawa light/dark jest gotowa i przetestowana. Oczekiwanie na „dalej” przed właściwym designem headera i homepage.
+Interaktywny hub homepage gotowy do wizualnej oceny użytkownika w przeglądarce. Nie projektować kolejnych podstron przed jego oceną.
 
 ## Next Steps
 Pojedynczo:
-1. Przygotować wizualny design headera i homepage, etapami.
+1. Zebrać wizualną ocenę homepage; kolejny etap ustalić z użytkownikiem.
 
 ## Important Decisions
 - Kolory interfejsu i przyszłych sekcji korzystają z CSS custom properties light/dark; bez pluginu, zależności npm i powiązania motywu kolorów z językiem.

@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once __DIR__ . '/blocks/selected-projects.php';
+
 /**
  * Register portfolio projects with the native WordPress block editor.
  */

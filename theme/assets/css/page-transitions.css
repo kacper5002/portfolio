@@ -1,0 +1,19 @@
+/* Native document navigation. No layout changes, routing, fetching or click delays. */
+@view-transition { navigation: auto; }
+::view-transition-group(hub-page) {
+    animation-duration: .45s;
+    animation-timing-function: cubic-bezier(.22,.65,.3,1);
+    overflow: clip;
+    border-radius: 22px;
+}
+::view-transition-old(hub-page), ::view-transition-new(hub-page) {
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    animation-duration: .35s;
+}
+::view-transition-group(root) { animation-duration: .25s; }
+@media (prefers-reduced-motion: reduce) {
+    @view-transition { navigation: none; }
+    ::view-transition-group(*) { animation: none !important; }
+}

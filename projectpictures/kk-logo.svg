@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 78" role="img" aria-labelledby="title">
+  <title id="title">KK logo</title>
+  <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+    <!-- First K -->
+    <path d="M14 12V66" />
+    <path d="M14 39L38 12" />
+    <path d="M14 39L38 66" />
+    <!-- Second K-like mark, closer and with exact joint -->
+    <path d="M33 39L56 12" />
+    <path d="M33 39L56 66" />
+  </g>
+</svg>
