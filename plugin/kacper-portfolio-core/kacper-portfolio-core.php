@@ -57,6 +57,7 @@ function kacper_portfolio_core_register_project() {
 		array(
 			'labels'       => $labels,
 			'public'       => true,
+			'has_archive'  => true,
 			'show_in_rest' => true,
 			'menu_icon'    => 'dashicons-portfolio',
 			'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions' ),
