@@ -24,16 +24,19 @@ Profesjonalne portfolio Kacpra Koszarskiego w DE / EN / PL, z ręcznymi tłumacz
 - Istnieje 9 opublikowanych stron z tymczasową treścią DE/EN/PL. Grupy Polylang: About (DE 9 / EN 10 / PL 11), Resume (12 / 13 / 14), Contact (15 / 16 / 17); powiązania i szablony zweryfikowano przez API.
 - Użytkownik potwierdził konfigurację Polylang Free: Deutsch domyślny bez prefiksu, English `/en/`, Polski `/pl/`; `project` i `project_technology` obsługują wielojęzyczność.
 - Szablony `about`, `resume`, `contact` są przypisane do odpowiednich stron we wszystkich językach; bez CSS i formularza. HTTP 200 oraz właściwą treść i klasy szablonów potwierdzono dla wszystkich 9 adresów.
-- URL stron: DE `/ueber-mich/`, `/lebenslauf/`, `/kontakt/`; EN `/en/about/`, `/en/resume/`, `/en/contact/`; PL `/pl/o-mnie/`, `/pl/cv/`, `/pl/skontaktuj-sie/`. Slugi zgodne z zamówieniem; menu i switchera jeszcze nie tworzono.
+- URL stron: DE `/ueber-mich/`, `/lebenslauf/`, `/kontakt/`; EN `/en/about/`, `/en/resume/`, `/en/contact/`; PL `/pl/o-mnie/`, `/pl/cv/`, `/pl/skontaktuj-sie/`. Slugi zgodne z zamówieniem.
 - Opublikowane strony główne: DE Startseite (18, `startseite`), EN Home (19, `home`), PL Strona główna (20, `strona-glowna`), powiązane przez Polylang; treść to bloki H1 „Kacper Koszarski” i akapit „Portfolio”. Startseite ustawiona natywnym API jako statyczna strona główna.
-- `front-page.html` jest neutralny językowo: header, main.home-page z Post Content, footer. `/` działa prawidłowo; `/en/` i `/pl/` zwracają 200, ale jeszcze nie strony główne (szczegóły niżej).
+- `front-page.html` jest neutralny językowo: header, main.home-page z Post Content, footer. `/`, `/en/`, `/pl/` działają prawidłowo (HTTP 200, właściwy język i szablon).
+
+- Header używa dynamicznego bloku `kacper-portfolio/site-navigation` z pluginu: menu DE/EN/PL bez stałych ID, publiczne API Polylang Free 3.8.10, natywny link archiwum `project`, bezpieczny fallback DE bez Polylang.
+- Switcher `pll_the_languages(raw)` pokazuje DE/EN/PL, klasę `current-lang`, tłumaczenia About i homepage oraz standardowy fallback na home. Na archiwach API zwraca home języków. Testy 9 URL-i: HTTP 200, menu, aktywne linki i switcher poprawne; render PHP bez warnings/notices.
 
 ## Current Task
-Strony główne utworzone i powiązane. Do zakończenia etapu użytkownik musi włączyć w Polylang opcję adresu strony głównej zawierającego kod języka zamiast nazwy strony, zapisać permalinki i ponownie sprawdzić `/en/` oraz `/pl/`.
+Dynamiczna nawigacja i language switcher DE/EN/PL są gotowe i przetestowane. Oczekiwanie na „dalej” przed wizualnym designem headera i homepage.
 
 ## Next Steps
 Pojedynczo:
-1. Po potwierdzeniu działania stron głównych przygotować nawigację i language switcher w granicach Polylang Free.
+1. Przygotować wizualny design headera i homepage, etapami.
 
 ## Important Decisions
 - Własny Gutenberg Block Theme, bez Elementora, gotowego motywu i ACF; preferowane natywne API i bloki WordPressa.
@@ -47,6 +50,5 @@ Pojedynczo:
 - Praca po polsku, jeden logiczny etap naraz; po etapie czekać na „dalej”. Bez automatycznych commitów; nie odczytywać ani nie ujawniać `.env`.
 
 ## Known Issues
-- Polylang ma wyłączone ustawienie `redirect_lang` (skrócone URL stron głównych). `/en/` i `/pl/` nie wyświetlają jeszcze stron 19/20; ich treść dostępna pod `/en/home/` i `/pl/strona-glowna/`, obecnie jako zwykłe strony. Wymagany krok w Sprachen → Einstellungen → URL modifications oraz ponowny test; nie obchodzono konfiguracji kodem.
-- Blok `kacper-portfolio/project-details` ma tylko rejestrację PHP: działa na frontendzie, ale nie ma interfejsu JavaScript ani podglądu w edytorze witryny.
-- Pełna integracja edytora witryny (FSE) i tłumaczenie template parts nie należą do Free; sposób wielojęzycznej nawigacji wymaga sprawdzenia w osobnym etapie.
+- Bloki `kacper-portfolio/project-details` i `kacper-portfolio/site-navigation` mają tylko rejestrację PHP: działają na frontendzie, ale nie mają interfejsu JavaScript ani podglądu w edytorze witryny.
+- Pełna integracja edytora witryny (FSE) i tłumaczenie template parts nie należą do Free; nawigacja korzysta z własnego bloku PHP i publicznego API Free, bez Navigation entities Pro.

@@ -301,6 +301,97 @@ function kacper_portfolio_core_render_project_details( $attributes, $content, $b
 }
 
 /**
+ * Register the PHP navigation block without Site Editor navigation entities.
+ */
+function kacper_portfolio_core_register_site_navigation() {
+	register_block_type(
+		'kacper-portfolio/site-navigation',
+		array(
+			'api_version'     => 3,
+			'title'           => __( 'Portfolio Navigation', 'kacper-portfolio-core' ),
+			'category'        => 'widgets',
+			'render_callback' => 'kacper_portfolio_core_render_site_navigation',
+			'supports'        => array( 'html' => false ),
+		)
+	);
+}
+add_action( 'init', 'kacper_portfolio_core_register_site_navigation' );
+
+/**
+ * Resolve page translations and switcher destinations through public APIs.
+ */
+function kacper_portfolio_core_render_site_navigation() {
+	$labels = array(
+		'de' => array( 'Startseite', 'Über mich', 'Projekte', 'Lebenslauf', 'Kontakt', 'Hauptnavigation' ),
+		'en' => array( 'Home', 'About', 'Projects', 'Resume', 'Contact', 'Primary navigation' ),
+		'pl' => array( 'Strona główna', 'O mnie', 'Projekty', 'CV', 'Kontakt', 'Nawigacja główna' ),
+	);
+	$lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'de';
+	$lang = isset( $labels[ $lang ] ) ? $lang : 'de';
+	$home = function_exists( 'pll_home_url' ) ? pll_home_url( $lang ) : home_url( '/' );
+	$menu = '';
+
+	foreach ( array( 'home', 'ueber-mich', 'project', 'lebenslauf', 'kontakt' ) as $index => $key ) {
+		$url     = '';
+		$current = false;
+		if ( 'home' === $key ) {
+			$url     = $home;
+			$current = is_front_page();
+		} elseif ( 'project' === $key ) {
+			// Polylang filters this native link for the current request language.
+			$url     = get_post_type_archive_link( 'project' );
+			$current = is_post_type_archive( 'project' ) && ! is_paged();
+		} else {
+			$base = get_page_by_path( $key, OBJECT, 'page' );
+			if ( $base ) {
+				$id = function_exists( 'pll_get_post' ) ? pll_get_post( $base->ID, $lang ) : $base->ID;
+				if ( $id && 'publish' === get_post_status( $id ) ) {
+					$url     = get_permalink( $id );
+					$current = is_page( $id );
+				}
+			}
+		}
+		if ( $url ) {
+			$menu .= '<li><a href="' . esc_url( $url ) . '"' . ( $current ? ' aria-current="page"' : '' ) . '>';
+			$menu .= esc_html( $labels[ $lang ][ $index ] ) . '</a></li>';
+		}
+	}
+
+	$switcher = '';
+	if ( function_exists( 'pll_the_languages' ) ) {
+		$languages = pll_the_languages(
+			array(
+				'raw'                    => 1,
+				'echo'                   => 0,
+				'show_flags'             => 0,
+				'display_names_as'       => 'slug',
+				'hide_if_empty'          => 0,
+				'hide_if_no_translation' => 0,
+				'hide_current'           => 0,
+				'force_home'             => 0,
+			)
+		);
+		foreach ( array( 'de', 'en', 'pl' ) as $code ) {
+			if ( ! is_array( $languages ) || empty( $languages[ $code ]['url'] ) ) {
+				continue;
+			}
+			$language = $languages[ $code ];
+			$current  = ! empty( $language['current_lang'] );
+			$switcher .= '<li class="' . esc_attr( 'lang-item lang-item-' . $code . ( $current ? ' current-lang' : '' ) ) . '">';
+			$switcher .= '<a href="' . esc_url( $language['url'] ) . '" hreflang="' . esc_attr( $code ) . '" lang="' . esc_attr( $code ) . '"';
+			$switcher .= ( $current ? ' aria-current="true"' : '' ) . '>' . esc_html( strtoupper( $code ) ) . '</a></li>';
+		}
+	}
+
+	$html = '<nav ' . get_block_wrapper_attributes( array( 'class' => 'portfolio-navigation', 'aria-label' => $labels[ $lang ][5] ) ) . '>';
+	$html .= '<ul class="portfolio-navigation__menu">' . $menu . '</ul>';
+	if ( '' !== $switcher ) {
+		$html .= '<div class="portfolio-navigation__languages"><ul>' . $switcher . '</ul></div>';
+	}
+	return $html . '</nav>';
+}
+
+/**
  * Refresh project URLs once when the plugin is activated.
  */
 function kacper_portfolio_core_activate() {
