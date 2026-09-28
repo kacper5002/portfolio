@@ -21,18 +21,18 @@ Profesjonalne portfolio Kacpra Koszarskiego w DE / EN / PL, z ręcznymi tłumacz
 ## Current State
 - Użytkownik potwierdził działanie CMS i podstawowych stron projektów. Brak rozbudowanego designu.
 - `page.html` wyświetla tytuł H1 i treść Gutenberga pomiędzy headerem a footerem; test zwykłej strony w przeglądarce nie został jeszcze potwierdzony.
-- Utworzenie stron Über mich, Lebenslauf i Kontakt oraz konfiguracja menu w bazie WordPressa nie zostały potwierdzone.
+- Istnieje 9 opublikowanych stron z tymczasową treścią DE/EN/PL. Grupy Polylang: About (DE 9 / EN 10 / PL 11), Resume (12 / 13 / 14), Contact (15 / 16 / 17); powiązania i szablony zweryfikowano przez API.
 - Użytkownik potwierdził konfigurację Polylang Free: Deutsch domyślny bez prefiksu, English `/en/`, Polski `/pl/`; `project` i `project_technology` obsługują wielojęzyczność.
-- Szablony About, Resume i Contact mają header, main z osobnymi klasami intro/content, dynamiczny tytuł H1, treść i footer. Bez CSS, treści i formularza; jeszcze nie przypisano ich do stron w tym etapie.
+- Szablony `about`, `resume`, `contact` są przypisane do odpowiednich stron we wszystkich językach; bez CSS i formularza. HTTP 200 oraz właściwą treść i klasy szablonów potwierdzono dla wszystkich 9 adresów.
+- URL stron: DE `/ueber-mich/`, `/lebenslauf/`, `/kontakt/`; EN `/en/about/`, `/en/resume/`, `/en/contact/`; PL `/pl/o-mnie/`, `/pl/cv/`, `/pl/skontaktuj-sie/`. Slugi zgodne z zamówieniem; stron głównych, menu i switchera jeszcze nie tworzono.
 
 ## Current Task
-Neutralne custom templates są gotowe. Oczekiwanie na „dalej” przed utworzeniem stron językowych i połączeniem ich przez Polylang.
+Strony About, Resume i Contact w DE/EN/PL są gotowe i powiązane. Oczekiwanie na „dalej” przed przygotowaniem osobnych stron głównych DE/EN/PL.
 
 ## Next Steps
 Pojedynczo:
-1. Utworzyć i powiązać strony DE/EN/PL dla About, Resume i Contact, przypisując wspólne szablony.
-2. Przygotować i powiązać językowe strony główne.
-3. Przygotować language switcher i nawigację w granicach Polylang Free.
+1. Przygotować i powiązać osobne strony główne DE/EN/PL.
+2. Przygotować nawigację i language switcher w granicach Polylang Free.
 
 ## Important Decisions
 - Własny Gutenberg Block Theme, bez Elementora, gotowego motywu i ACF; preferowane natywne API i bloki WordPressa.
