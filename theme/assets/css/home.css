@@ -15,20 +15,20 @@ body.home {
     -webkit-font-smoothing: antialiased;
 }
 html[data-theme="dark"] body.home {
-    --hub-background: #151515;
-    --hub-card: #222222;
-    --hub-ghost: #242424;
+    --hub-background: #000000;
+    --hub-card: #0c0c0c;
+    --hub-ghost: #151515;
     --hub-ink: #f2f2ee;
     --hub-muted: #b3b3ac;
-    --hub-line: #343434;
-    --hub-preview: #30302e;
+    --hub-line: #262626;
+    --hub-preview: #161616;
     --hub-shadow: 0 8px 28px rgb(0 0 0 / .16);
 }
 @media (prefers-color-scheme: dark) {
     html:not([data-theme]) body.home {
-        --hub-background: #151515; --hub-card: #222222; --hub-ghost: #242424;
-        --hub-ink: #f2f2ee; --hub-muted: #b3b3ac; --hub-line: #343434;
-        --hub-preview: #30302e; --hub-shadow: 0 8px 28px rgb(0 0 0 / .16);
+        --hub-background: #000000; --hub-card: #0c0c0c; --hub-ghost: #151515;
+        --hub-ink: #f2f2ee; --hub-muted: #b3b3ac; --hub-line: #262626;
+        --hub-preview: #161616; --hub-shadow: 0 8px 28px rgb(0 0 0 / .16);
     }
 }
 body.home .wp-site-blocks { padding: 0; }
@@ -36,34 +36,78 @@ body.home .home-page { max-width: none; margin: 0; }
 .home-page > .wp-block-post-content,
 .home-page .portfolio-hub { max-width: none !important; margin: 0 auto !important; }
 .portfolio-hub *, .portfolio-hub *::before, .portfolio-hub *::after { box-sizing: border-box; }
-/* Compact header. Without JS every existing navigation link remains visible. */
-body.home header.wp-block-group { position: relative; z-index: 5; padding: 20px 18px 0; }
-body.home header > .wp-block-group {
-    max-width: 800px; padding: 9px 12px 9px 20px; gap: 14px;
+/* Brand + expanding menu in the centre; page controls outside the bar. */
+body.home header.wp-block-group { position: relative; z-index: 5; padding: 76px 18px 0; }
+body.home .portfolio-header__bar {
+    box-sizing: border-box; width: 100%; max-width: 720px; padding: 10px 16px; gap: 20px;
     background: var(--hub-card); border: 1px solid var(--hub-line); border-radius: 16px;
-    box-shadow: var(--hub-shadow);
+    box-shadow: var(--hub-shadow); flex-wrap: nowrap;
+    transition: max-width .4s cubic-bezier(.22,.65,.3,1);
 }
-body.home header .wp-block-site-title { margin: 0; font: 600 16px/1.2 Inter, 'Helvetica Neue', Arial, sans-serif; letter-spacing: -.045em; }
+body.home .portfolio-header__bar.hub-header-enhanced { max-width: 380px; }
+body.home .portfolio-header__bar.is-menu-open { max-width: 720px; }
+body.home .portfolio-brand { gap: 3px; align-items: center; }
+body.home header .wp-block-site-title { margin: 0; font: 600 20px/1.2 Inter, 'Helvetica Neue', Arial, sans-serif; letter-spacing: -.025em; }
 body.home header .wp-block-site-title a { text-decoration: none; color: var(--hub-ink); }
-body.home .header-actions { gap: 12px; }
-body.home .portfolio-navigation { gap: 16px; position: relative; }
-body.home .portfolio-navigation a { display: inline-block; font-size: 12px; text-decoration: none; color: var(--hub-ink); padding: 10px 0; }
-body.home .portfolio-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
-body.home .portfolio-navigation__menu { gap: 12px; }
-body.home .portfolio-navigation__languages ul { gap: 2px; }
-body.home .portfolio-navigation__languages a { font-size: 10px; padding: 10px 6px; color: var(--hub-muted); }
-body.home .portfolio-navigation__languages .current-lang a { color: var(--hub-ink); text-decoration: underline; text-underline-offset: 5px; }
-body.home .theme-toggle { width: 34px; height: 34px; border: 0; background: var(--hub-background); color: var(--hub-ink); }
-.hub-menu-button { border: 0; border-radius: 9px; padding: 11px 16px; font-family: inherit; font-size: 12px; font-weight: 500; line-height: 1.2; background: var(--hub-ink); color: var(--hub-card); cursor: pointer; }
-.hub-menu-button span { margin-left: 14px; }
+body.home .header-actions { gap: 0; flex-wrap: nowrap; }
+body.home .portfolio-navigation { gap: 0; flex-wrap: nowrap; }
+body.home .portfolio-navigation__menu a { display: inline-block; font-size: 12px; text-decoration: none; color: var(--hub-ink); padding: 10px 0; white-space: nowrap; }
+body.home .portfolio-navigation__menu a:hover { text-decoration: underline; text-underline-offset: 4px; }
+body.home .portfolio-navigation__menu { gap: 15px; }
+body.home .portfolio-logo { width: 26px; height: 30px; color: var(--hub-ink); }
+body.home .portfolio-navigation__languages { background: var(--hub-card); border-color: var(--hub-line); }
+.hub-menu-button { flex-shrink: 0; border: 0; border-radius: 9px; padding: 11px 14px; font-family: inherit; font-size: 12px; font-weight: 500; line-height: 1.2; background: var(--hub-ink); color: var(--hub-card); cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+.hub-menu-button span { display: inline-block; margin-left: 12px; transition: transform .3s ease; }
+.hub-menu-button[aria-expanded="true"] span { transform: rotate(45deg); }
 body.home .hub-menu-enhanced .portfolio-navigation__menu {
-    position: absolute; top: calc(100% + 16px); right: 0; min-width: 190px;
-    padding: 14px 20px; display: grid; gap: 1px; border: 1px solid var(--hub-line);
-    border-radius: 14px; box-shadow: var(--hub-shadow); background: var(--hub-card);
+    box-sizing: border-box; flex-wrap: nowrap; max-width: 0; min-width: 0;
+    overflow: hidden; opacity: 0; visibility: hidden; margin-inline: 0;
+    transition: max-width .4s cubic-bezier(.22,.65,.3,1), margin .4s ease, opacity .2s ease, visibility .4s;
 }
-body.home .portfolio-navigation__menu[hidden] { display: none; }
-body.home .portfolio-navigation__menu a { width: 100%; }
+body.home .is-menu-open .portfolio-navigation__menu {
+    max-width: 440px; margin-inline: 20px 0; opacity: 1; visibility: visible;
+}
 .hub-menu-button:focus-visible, .hub-card:focus-visible { outline: 2px solid var(--hub-ink); outline-offset: 5px; }
+@media (hover: hover) and (pointer: fine) {
+    .hub-menu-button:hover { transform: scale(1.045); box-shadow: 0 4px 10px rgb(0 0 0 / .12); }
+}
+.hub-menu-button:active { transform: scale(.97); }
+/* Reserve a separate controls row until both areas fit side by side. */
+@media (min-width: 1200px) {
+    body.home header.wp-block-group { padding-top: 20px; }
+    body.home .header-tools, body.home .portfolio-navigation__languages { top: 31px; }
+}
+@media (max-width: 1099px) {
+    body.home .portfolio-header__bar.is-menu-open { max-width: 540px; }
+    body.home .portfolio-header__bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; row-gap: 0; }
+    body.home .header-actions, body.home .portfolio-navigation { display: contents; }
+    body.home .portfolio-brand { grid-column: 1; grid-row: 1; }
+    body.home .hub-menu-button { grid-column: 2; grid-row: 1; }
+    body.home .portfolio-navigation__menu {
+        grid-column: 1 / -1; grid-row: 2; justify-content: center;
+        flex-wrap: wrap !important; gap: 2px 18px;
+    }
+    body.home .hub-menu-enhanced .portfolio-navigation__menu {
+        max-width: none; max-height: 0; margin: 0; transition: max-height .35s ease, margin .35s ease, opacity .2s ease, visibility .35s;
+    }
+    body.home .is-menu-open .portfolio-navigation__menu { max-height: 150px; margin-top: 10px; }
+}
+@media (max-width: 600px) {
+    body.home .portfolio-header__bar { padding: 12px; column-gap: 12px; }
+    body.home header .wp-block-site-title { font-size: 18px; }
+    body.home .portfolio-logo { width: 24px; height: 28px; }
+    body.home .portfolio-navigation__menu { justify-content: flex-start; }
+}
+@media (max-width: 360px) {
+    body.home .portfolio-header__bar { padding: 10px; column-gap: 8px; }
+    body.home header .wp-block-site-title { font-size: 17px; }
+    .hub-menu-button { padding-inline: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    body.home .portfolio-header__bar, .hub-menu-button, .hub-menu-button span,
+    body.home .hub-menu-enhanced .portfolio-navigation__menu { transition: none; }
+    .hub-menu-button:hover, .hub-menu-button:active { transform: none; }
+}
 /* Mobile first: logical reading order, with no pointer effects. */
 .portfolio-hub { box-sizing: border-box; position: relative; width: 100%; padding: 65px 22px 40px; isolation: isolate; }
 .hub-background { position: absolute; inset: 32px 0 auto; z-index: -1; overflow: hidden; color: var(--hub-ghost); font-size: clamp(64px, 14vw, 180px); font-weight: 600; line-height: .88; letter-spacing: -.075em; text-align: center; pointer-events: none; }
@@ -140,10 +184,6 @@ body.home footer p { margin: 0; }
     .hub-card--resume p { max-width: 175px; }
 }
 @media (max-width: 420px) {
-    body.home header .wp-block-site-title { font-size: 14px; }
-    body.home header > .wp-block-group { padding: 13px; gap: 13px; }
-    body.home .header-actions { width: 100%; justify-content: space-between; }
-    body.home .portfolio-navigation { flex: 1; justify-content: space-between; }
     .hub-card--about { min-height: 410px; }
 }
 @media (prefers-reduced-motion: no-preference) {

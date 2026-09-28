@@ -19,26 +19,26 @@ Text Domain: kacper-portfolio
 
 html[data-theme="dark"] {
     color-scheme: dark;
-    --color-background: #141414;
+    --color-background: #000000;
     --color-text: #f5f5f5;
     --color-text-secondary: #b3b3b3;
-    --color-border: #383838;
-    --color-surface: #202020;
+    --color-border: #262626;
+    --color-surface: #0c0c0c;
     --color-primary: #f5f5f5;
-    --color-on-primary: #141414;
+    --color-on-primary: #000000;
 }
 
 /* Respect the system preference even when JavaScript is unavailable. */
 @media (prefers-color-scheme: dark) {
     html:not([data-theme]) {
         color-scheme: dark;
-        --color-background: #141414;
+        --color-background: #000000;
         --color-text: #f5f5f5;
         --color-text-secondary: #b3b3b3;
-        --color-border: #383838;
-        --color-surface: #202020;
+        --color-border: #262626;
+        --color-surface: #0c0c0c;
         --color-primary: #f5f5f5;
-        --color-on-primary: #141414;
+        --color-on-primary: #000000;
     }
 }
 
@@ -62,33 +62,48 @@ body {
     margin: 0;
 }
 
+/* Page controls live outside the navigation bar, at the top right. */
+.portfolio-header { position: relative; padding-top: 76px; }
+.portfolio-brand { gap: 10px; flex-shrink: 0; }
+.portfolio-brand .wp-block-site-title { margin: 0; }
+.header-tools { position: absolute; right: 22px; top: 20px; margin: 0; }
+.portfolio-header .portfolio-navigation__languages {
+    position: absolute; top: 20px; right: 102px; margin: 0;
+    border: 1px solid var(--color-border); border-radius: 30px;
+    background: var(--color-background); padding: 0 5px;
+}
+.portfolio-header .portfolio-navigation__languages ul { gap: 0; flex-wrap: nowrap; }
+.portfolio-header .portfolio-navigation__languages a {
+    display: inline-block; padding: 10px 7px; font: 10px/14px Inter, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--color-text-secondary); text-decoration: none;
+}
+.portfolio-header .portfolio-navigation__languages .current-lang a,
+.portfolio-header .portfolio-navigation__languages a:hover {
+    color: var(--color-text); text-decoration: underline; text-underline-offset: 4px;
+}
 .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: 1px solid var(--color-border);
-    border-radius: 50%;
-    background: var(--color-surface);
-    color: var(--color-text);
-    cursor: pointer;
+    box-sizing: border-box; position: relative; display: block; width: 64px; height: 36px;
+    padding: 0; border: 1px solid var(--color-border); border-radius: 30px;
+    background: var(--color-surface); color: var(--color-text); cursor: pointer;
 }
-
-.theme-toggle:hover {
-    border-color: var(--color-text-secondary);
+.theme-toggle:hover { border-color: var(--color-text-secondary); }
+.theme-toggle[hidden] { display: none; }
+.theme-toggle__thumb {
+    position: absolute; left: 3px; top: 3px; width: 28px; height: 28px;
+    border-radius: 50%; background: var(--color-primary); color: var(--color-on-primary);
+    transform: translateX(0); transition: transform .3s cubic-bezier(.22,.65,.3,1);
 }
-
-.theme-toggle[hidden],
-.theme-toggle__sun,
-html[data-theme="dark"] .theme-toggle__moon {
-    display: none;
+.theme-toggle__thumb svg {
+    position: absolute; inset: 5px; width: 18px; height: 18px;
+    transition: opacity .2s ease, transform .3s ease;
 }
-
-html[data-theme="dark"] .theme-toggle__sun {
-    display: block;
+.theme-toggle__moon { opacity: 0; transform: rotate(-60deg) scale(.6); }
+.theme-toggle__sun { opacity: 1; transform: rotate(0) scale(1); }
+html[data-theme="dark"] .theme-toggle__thumb { transform: translateX(28px); }
+html[data-theme="dark"] .theme-toggle__moon { opacity: 1; transform: rotate(0) scale(1); }
+html[data-theme="dark"] .theme-toggle__sun { opacity: 0; transform: rotate(60deg) scale(.6); }
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle__thumb, .theme-toggle__thumb svg { transition: none; }
 }
 
 .theme-toggle:focus-visible,
@@ -98,4 +113,15 @@ html[data-theme="dark"] .theme-toggle__sun {
     outline-offset: 4px;
 }
 
-/* Theme changes are immediate: no motion, including with reduced motion. */
+/* Page colors change immediately; only the switch thumb and icons animate. */
+
+/* The SVG mask inherits the current theme color without a second logo file. */
+.portfolio-logo {
+    display: inline-block;
+    width: 28px;
+    height: 33px;
+    flex-shrink: 0;
+    color: var(--color-text);
+    background-color: currentColor;
+    mask: url('assets/images/kk-logo.svg') center / contain no-repeat;
+}

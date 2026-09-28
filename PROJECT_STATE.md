@@ -31,15 +31,16 @@ Profesjonalne portfolio Kacpra Koszarskiego w DE / EN / PL, z ręcznymi tłumacz
 - Header używa dynamicznego bloku `kacper-portfolio/site-navigation` z pluginu: menu DE/EN/PL bez stałych ID, publiczne API Polylang Free 3.8.10, natywny link archiwum `project`, bezpieczny fallback DE bez Polylang.
 - Switcher `pll_the_languages(raw)` pokazuje DE/EN/PL, klasę `current-lang`, tłumaczenia About i homepage oraz standardowy fallback na home. Na archiwum `project` switcher prowadzi do `/projekte/`, `/en/projekte/`, `/pl/projekte/`: natywny URL archiwum przetwarza publiczny filtr `wpml_permalink` obsługiwany przez Polylang Free; pozostałe widoki zachowują standardowe API. Testy 9 URL-i: HTTP 200, menu, aktywne linki i switcher poprawne; render PHP bez warnings/notices.
 
-- Motyw obsługuje light/dark: neutralne zmienne kolorów w `style.css`, `data-theme` na html, wczesna inicjalizacja w `functions.php`, asset `assets/js/theme-toggle.js`; wybór `portfolio-theme` w localStorage ma pierwszeństwo przed systemem i jest wspólny dla DE/EN/PL.
-- Header homepage: kompaktowe Menu (Enter/Escape), niezmienione linki językowe i toggle. Bez JS całe menu pozostaje widoczne. `assets/css/home.css` / `assets/js/home.js`: asymetryczny desktop, dwie kolumny tablet, jedna mobile; tilt do ±3,5° tylko dla myszy, subtelne wejście i reduced motion.
+- Motyw obsługuje light/dark: prawdziwie czarne tło dark mode (`#000000`), neutralne zmienne kolorów w `style.css`, `data-theme` na html, wczesna inicjalizacja w `functions.php`, asset `assets/js/theme-toggle.js`; wybór `portfolio-theme` w localStorage ma pierwszeństwo przed systemem i jest wspólny dla DE/EN/PL.
+- Header homepage: powiększony podpis: logo KK 26 × 30 px i nazwisko 20 px na desktopie, odstęp 3 px; mobile logo 24 × 28 px i tekst 17–18 px, centralny pasek 380 px rozwijany do 720 px (na mniejszych ekranach linki w dodatkowym rzędzie). DE/EN/PL i animowany suwak sun/moon są osobno w prawym górnym rogu; poniżej 1200 px mają własny rząd nad paskiem. Enter/Tab/Escape, inert i reduced motion; bez JS menu widoczne. Logo dziedziczy kolor motywu, oryginał SVG zachowany.
+- `assets/css/home.css` / `assets/js/home.js`: asymetryczny desktop, dwie kolumny tablet, jedna mobile; tilt do ±3,5° tylko dla myszy, subtelne wejście i reduced motion.
 - Hub należy do motywu (`inc/home-hub.php`, natywny edytor bloku): tytuły i linki stron z WordPress/Polylang, podgląd projektu z CPT. MSP Monitoring bez featured image — prawdziwy tytuł zamiast fikcyjnego screenshotu; danych projektu nie zmieniano. Poprzedni blok selected-projects pozostaje dostępny w pluginie, ale homepage go nie używa.
 - Portret z `projectpictures/aboutme.png` dodany przez API do mediów WordPressa (ID 24), wybierany w bloku. Oryginalne zdjęcia i referencja pozostały nietknięte.
 - `page-transitions.css/js`: natywne cross-document View Transitions między kartą a main podstrony, również Wstecz. Zwykłe URL-e i linki; brak SPA, fetchowania stron i opóźniania kliknięć. Dodatkowe assety na docelowych stronach służą tylko przejściom; layouty nietknięte.
 - Testy Chrome: DE/EN/PL × 1440/1024/768/390 px × light/dark bez overflow; 12 kliknięć kart, reload/Wstecz, Menu klawiaturą, system/localStorage, reduced motion i brak tilt na dotyku. HTTP 200; brak JS errors i PHP warnings/notices. Gutenberg rozpoznaje poprawny blok hub we wszystkich trzech wersjach. Potwierdzono nienaruszone dane podstron, projektów i grupy tłumaczeń.
 
 ## Current Task
-Interaktywny hub homepage gotowy do wizualnej oceny użytkownika w przeglądarce. Nie projektować kolejnych podstron przed jego oceną.
+Header z logo po lewej oraz oddzielnym wyborem języka i suwakiem motywu gotowy do oceny. Testy: 36 stanów układu (DE/EN/PL, 320–1440 px, menu otwarte/zamknięte), animacja ikon/suwaka, klawiatura, reduced motion, localStorage i linki Polylang; brak kolizji, overflow i błędów JS. Nie projektować kolejnych podstron przed oceną użytkownika.
 
 ## Next Steps
 Pojedynczo:
