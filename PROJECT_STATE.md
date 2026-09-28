@@ -31,14 +31,18 @@ Profesjonalne portfolio Kacpra Koszarskiego w DE / EN / PL, z ręcznymi tłumacz
 - Header używa dynamicznego bloku `kacper-portfolio/site-navigation` z pluginu: menu DE/EN/PL bez stałych ID, publiczne API Polylang Free 3.8.10, natywny link archiwum `project`, bezpieczny fallback DE bez Polylang.
 - Switcher `pll_the_languages(raw)` pokazuje DE/EN/PL, klasę `current-lang`, tłumaczenia About i homepage oraz standardowy fallback na home. Na archiwum `project` switcher prowadzi do `/projekte/`, `/en/projekte/`, `/pl/projekte/`: natywny URL archiwum przetwarza publiczny filtr `wpml_permalink` obsługiwany przez Polylang Free; pozostałe widoki zachowują standardowe API. Testy 9 URL-i: HTTP 200, menu, aktywne linki i switcher poprawne; render PHP bez warnings/notices.
 
+- Motyw obsługuje light/dark: neutralne zmienne kolorów w `style.css`, `data-theme` na html, wczesna inicjalizacja w `functions.php`, asset `assets/js/theme-toggle.js`; wybór `portfolio-theme` w localStorage ma pierwszeństwo przed systemem i jest wspólny dla DE/EN/PL.
+- Przycisk sun/moon w headerze obok języków: natywny button, zmienny aria-label, widoczny fokus, bez animacji. Chrome: light/dark systemowy i ręczny, reload, DE/EN/PL, Enter, blokada storage, kontrast oraz brak błędów JS potwierdzone. CTA testowano jako tymczasowy blok w DOM; docelowy hero/CTA jeszcze nie istnieje.
+
 ## Current Task
-Dynamiczna nawigacja i language switcher DE/EN/PL są gotowe i przetestowane. Oczekiwanie na „dalej” przed wizualnym designem headera i homepage.
+Podstawa light/dark jest gotowa i przetestowana. Oczekiwanie na „dalej” przed właściwym designem headera i homepage.
 
 ## Next Steps
 Pojedynczo:
 1. Przygotować wizualny design headera i homepage, etapami.
 
 ## Important Decisions
+- Kolory interfejsu i przyszłych sekcji korzystają z CSS custom properties light/dark; bez pluginu, zależności npm i powiązania motywu kolorów z językiem.
 - Własny Gutenberg Block Theme, bez Elementora, gotowego motywu i ACF; preferowane natywne API i bloki WordPressa.
 - Motyw określa układ i wygląd; plugin przechowuje logikę danych oraz renderowanie szczegółów projektu. Szablon tylko wskazuje miejsce bloku.
 - GitHub i Live Demo są opcjonalne; starsze projekty mogą nie mieć żadnego linku.

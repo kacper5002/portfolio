@@ -27,8 +27,19 @@
   },
   "styles": {
     "color": {
-      "background": "#ffffff",
-      "text": "#111111"
+      "background": "var(--color-background)",
+      "text": "var(--color-text)"
+    },
+    "elements": {
+      "link": {
+        "color": { "text": "var(--color-text)" }
+      },
+      "button": {
+        "color": {
+          "background": "var(--color-primary)",
+          "text": "var(--color-on-primary)"
+        }
+      }
     }
   }
 }

@@ -5,3 +5,97 @@ Description: Custom WordPress block theme for my personal portfolio.
 Version: 1.0.0
 Text Domain: kacper-portfolio
 */
+
+:root {
+    color-scheme: light;
+    --color-background: #ffffff;
+    --color-text: #111111;
+    --color-text-secondary: #595959;
+    --color-border: #e5e5e5;
+    --color-surface: #f5f5f5;
+    --color-primary: #111111;
+    --color-on-primary: #ffffff;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+    --color-background: #141414;
+    --color-text: #f5f5f5;
+    --color-text-secondary: #b3b3b3;
+    --color-border: #383838;
+    --color-surface: #202020;
+    --color-primary: #f5f5f5;
+    --color-on-primary: #141414;
+}
+
+/* Respect the system preference even when JavaScript is unavailable. */
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+        color-scheme: dark;
+        --color-background: #141414;
+        --color-text: #f5f5f5;
+        --color-text-secondary: #b3b3b3;
+        --color-border: #383838;
+        --color-surface: #202020;
+        --color-primary: #f5f5f5;
+        --color-on-primary: #141414;
+    }
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+.portfolio-navigation,
+.portfolio-navigation__menu,
+.portfolio-navigation__languages ul {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.portfolio-navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+.theme-toggle:hover {
+    border-color: var(--color-text-secondary);
+}
+
+.theme-toggle[hidden],
+.theme-toggle__sun,
+html[data-theme="dark"] .theme-toggle__moon {
+    display: none;
+}
+
+html[data-theme="dark"] .theme-toggle__sun {
+    display: block;
+}
+
+.theme-toggle:focus-visible,
+.portfolio-navigation a:focus-visible,
+.wp-block-button__link:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 4px;
+}
+
+/* Theme changes are immediate: no motion, including with reduced motion. */
