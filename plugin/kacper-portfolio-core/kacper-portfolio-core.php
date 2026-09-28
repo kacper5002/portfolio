@@ -60,7 +60,7 @@ function kacper_portfolio_core_register_project() {
 			'has_archive'  => true,
 			'show_in_rest' => true,
 			'menu_icon'    => 'dashicons-portfolio',
-			'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions' ),
+			'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions', 'custom-fields' ),
 			'rewrite'      => array(
 				'slug'       => 'projekte',
 				'with_front' => false,
@@ -69,6 +69,127 @@ function kacper_portfolio_core_register_project() {
 	);
 }
 add_action( 'init', 'kacper_portfolio_core_register_project' );
+
+/**
+ * Allow metadata changes only for users who can edit the project.
+ */
+function kacper_portfolio_core_can_edit_meta( $allowed, $meta_key, $post_id ) {
+	return current_user_can( 'edit_post', $post_id );
+}
+
+/**
+ * Register project details for WordPress and the REST API.
+ */
+function kacper_portfolio_core_register_project_meta() {
+	register_post_meta(
+		'project',
+		'project_year',
+		array(
+			'type'              => 'integer',
+			'single'            => true,
+			'show_in_rest'      => true,
+			'sanitize_callback' => static function ( $value ) {
+				return intval( $value );
+			},
+			'auth_callback'     => 'kacper_portfolio_core_can_edit_meta',
+		)
+	);
+
+	foreach ( array( 'project_github_url', 'project_live_url' ) as $meta_key ) {
+		register_post_meta(
+			'project',
+			$meta_key,
+			array(
+				'type'              => 'string',
+				'single'            => true,
+				'default'           => '',
+				'show_in_rest'      => true,
+				'sanitize_callback' => static function ( $value ) {
+					return is_string( $value ) ? esc_url_raw( $value ) : '';
+				},
+				'auth_callback'     => 'kacper_portfolio_core_can_edit_meta',
+			)
+		);
+	}
+}
+add_action( 'init', 'kacper_portfolio_core_register_project_meta' );
+
+/**
+ * Add the native project details panel below the editor.
+ */
+function kacper_portfolio_core_add_project_meta_box() {
+	add_meta_box(
+		'kacper-portfolio-project-details',
+		__( 'Projektdetails', 'kacper-portfolio-core' ),
+		'kacper_portfolio_core_render_project_meta_box',
+		'project',
+		'normal'
+	);
+}
+add_action( 'add_meta_boxes_project', 'kacper_portfolio_core_add_project_meta_box' );
+
+/**
+ * Render escaped values and a nonce for the project details form.
+ */
+function kacper_portfolio_core_render_project_meta_box( $post ) {
+	wp_nonce_field( 'kacper_portfolio_save_project_details', 'kacper_portfolio_details_nonce' );
+	$year = metadata_exists( 'post', $post->ID, 'project_year' )
+		? get_post_meta( $post->ID, 'project_year', true ) : '';
+	?>
+	<p>
+		<label for="project_year"><?php esc_html_e( 'Jahr', 'kacper-portfolio-core' ); ?></label><br>
+		<input type="number" step="1" id="project_year" name="project_year" value="<?php echo esc_attr( $year ); ?>">
+	</p>
+	<p>
+		<label for="project_github_url"><?php esc_html_e( 'GitHub URL (optional)', 'kacper-portfolio-core' ); ?></label><br>
+		<input type="url" id="project_github_url" name="project_github_url" value="<?php echo esc_attr( get_post_meta( $post->ID, 'project_github_url', true ) ); ?>">
+	</p>
+	<p>
+		<label for="project_live_url"><?php esc_html_e( 'Live-Demo URL (optional)', 'kacper-portfolio-core' ); ?></label><br>
+		<input type="url" id="project_live_url" name="project_live_url" value="<?php echo esc_attr( get_post_meta( $post->ID, 'project_live_url', true ) ); ?>">
+	</p>
+	<?php
+}
+
+/**
+ * Save only explicitly submitted details from an authorized editor.
+ */
+function kacper_portfolio_core_save_project_details( $post_id ) {
+	if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+		|| wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+		return;
+	}
+
+	if ( ! isset( $_POST['kacper_portfolio_details_nonce'] )
+		|| ! is_string( $_POST['kacper_portfolio_details_nonce'] )
+		|| ! wp_verify_nonce(
+			sanitize_text_field( wp_unslash( $_POST['kacper_portfolio_details_nonce'] ) ),
+			'kacper_portfolio_save_project_details'
+		) ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+
+	if ( isset( $_POST['project_year'] ) && is_string( $_POST['project_year'] ) ) {
+		$year = trim( wp_unslash( $_POST['project_year'] ) );
+		if ( '' === $year ) {
+			delete_post_meta( $post_id, 'project_year' );
+		} else {
+			update_post_meta( $post_id, 'project_year', intval( $year ) );
+		}
+	}
+
+	foreach ( array( 'project_github_url', 'project_live_url' ) as $meta_key ) {
+		if ( isset( $_POST[ $meta_key ] ) && is_string( $_POST[ $meta_key ] ) ) {
+			$url = esc_url_raw( wp_unslash( $_POST[ $meta_key ] ) );
+			update_post_meta( $post_id, $meta_key, wp_slash( $url ) );
+		}
+	}
+}
+add_action( 'save_post_project', 'kacper_portfolio_core_save_project_details' );
 
 /**
  * Refresh project URLs once when the plugin is activated.
