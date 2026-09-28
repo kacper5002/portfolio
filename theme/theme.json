@@ -1,6 +1,23 @@
 {
   "$schema": "https://schemas.wp.org/trunk/theme.json",
   "version": 3,
+  "customTemplates": [
+    {
+      "name": "about",
+      "title": "About",
+      "postTypes": ["page"]
+    },
+    {
+      "name": "resume",
+      "title": "Resume",
+      "postTypes": ["page"]
+    },
+    {
+      "name": "contact",
+      "title": "Contact",
+      "postTypes": ["page"]
+    }
+  ],
   "settings": {
     "appearanceTools": true,
     "layout": {
