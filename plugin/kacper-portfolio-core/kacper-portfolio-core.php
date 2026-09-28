@@ -61,6 +61,7 @@ function kacper_portfolio_core_register_project() {
 			'show_in_rest' => true,
 			'menu_icon'    => 'dashicons-portfolio',
 			'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions', 'custom-fields' ),
+			'taxonomies'   => array( 'project_technology' ),
 			'rewrite'      => array(
 				'slug'       => 'projekte',
 				'with_front' => false,
@@ -69,6 +70,50 @@ function kacper_portfolio_core_register_project() {
 	);
 }
 add_action( 'init', 'kacper_portfolio_core_register_project' );
+
+/**
+ * Register technologies as non-hierarchical terms for projects only.
+ */
+function kacper_portfolio_core_register_project_technology() {
+	$labels = array(
+		'name'                       => __( 'Technologien', 'kacper-portfolio-core' ),
+		'singular_name'              => __( 'Technologie', 'kacper-portfolio-core' ),
+		'menu_name'                  => __( 'Technologien', 'kacper-portfolio-core' ),
+		'search_items'               => __( 'Technologien suchen', 'kacper-portfolio-core' ),
+		'popular_items'              => __( 'Häufig verwendete Technologien', 'kacper-portfolio-core' ),
+		'all_items'                  => __( 'Alle Technologien', 'kacper-portfolio-core' ),
+		'edit_item'                  => __( 'Technologie bearbeiten', 'kacper-portfolio-core' ),
+		'view_item'                  => __( 'Technologie ansehen', 'kacper-portfolio-core' ),
+		'update_item'                => __( 'Technologie aktualisieren', 'kacper-portfolio-core' ),
+		'add_new_item'               => __( 'Neue Technologie hinzufügen', 'kacper-portfolio-core' ),
+		'new_item_name'              => __( 'Name der neuen Technologie', 'kacper-portfolio-core' ),
+		'separate_items_with_commas' => __( 'Technologien durch Kommas trennen', 'kacper-portfolio-core' ),
+		'add_or_remove_items'        => __( 'Technologien hinzufügen oder entfernen', 'kacper-portfolio-core' ),
+		'choose_from_most_used'      => __( 'Aus den häufig verwendeten Technologien wählen', 'kacper-portfolio-core' ),
+		'not_found'                  => __( 'Keine Technologien gefunden.', 'kacper-portfolio-core' ),
+		'no_terms'                   => __( 'Keine Technologien', 'kacper-portfolio-core' ),
+		'items_list_navigation'      => __( 'Navigation der Technologieliste', 'kacper-portfolio-core' ),
+		'items_list'                 => __( 'Technologieliste', 'kacper-portfolio-core' ),
+		'back_to_items'              => __( 'Zurück zu den Technologien', 'kacper-portfolio-core' ),
+		'item_link'                  => __( 'Technologielink', 'kacper-portfolio-core' ),
+		'item_link_description'      => __( 'Ein Link zu einer Technologie.', 'kacper-portfolio-core' ),
+	);
+
+	register_taxonomy(
+		'project_technology',
+		array( 'project' ),
+		array(
+			'labels'            => $labels,
+			'hierarchical'      => false,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'show_in_rest'      => true,
+			'public'            => true,
+			'rewrite'           => array( 'slug' => 'technologien' ),
+		)
+	);
+}
+add_action( 'init', 'kacper_portfolio_core_register_project_technology' );
 
 /**
  * Allow metadata changes only for users who can edit the project.
@@ -196,6 +241,7 @@ add_action( 'save_post_project', 'kacper_portfolio_core_save_project_details' );
  */
 function kacper_portfolio_core_activate() {
 	kacper_portfolio_core_register_project();
+	kacper_portfolio_core_register_project_technology();
 	flush_rewrite_rules();
 }
 register_activation_hook( __FILE__, 'kacper_portfolio_core_activate' );
@@ -204,6 +250,7 @@ register_activation_hook( __FILE__, 'kacper_portfolio_core_activate' );
  * Remove project URL rules on deactivation without deleting project content.
  */
 function kacper_portfolio_core_deactivate() {
+	unregister_taxonomy( 'project_technology' );
 	unregister_post_type( 'project' );
 	flush_rewrite_rules();
 }
