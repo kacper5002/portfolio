@@ -237,6 +237,70 @@ function kacper_portfolio_core_save_project_details( $post_id ) {
 add_action( 'save_post_project', 'kacper_portfolio_core_save_project_details' );
 
 /**
+ * Register a server-rendered block for project templates.
+ */
+function kacper_portfolio_core_register_project_details_block() {
+	register_block_type(
+		'kacper-portfolio/project-details',
+		array(
+			'api_version'     => 3,
+			'title'           => __( 'Projektdetails', 'kacper-portfolio-core' ),
+			'category'        => 'widgets',
+			'uses_context'    => array( 'postId', 'postType' ),
+			'render_callback' => 'kacper_portfolio_core_render_project_details',
+			'supports'        => array( 'html' => false ),
+		)
+	);
+}
+add_action( 'init', 'kacper_portfolio_core_register_project_details_block' );
+
+/**
+ * Render only the details supplied for the project in this block's context.
+ */
+function kacper_portfolio_core_render_project_details( $attributes, $content, $block ) {
+	$post_id = absint( $block->context['postId'] ?? 0 );
+	if ( ! $post_id || 'project' !== get_post_type( $post_id ) || post_password_required( $post_id ) ) {
+		return '';
+	}
+
+	$year         = get_post_meta( $post_id, 'project_year', true );
+	$technologies = get_the_terms( $post_id, 'project_technology' );
+	$github_url   = esc_url( get_post_meta( $post_id, 'project_github_url', true ) );
+	$live_url     = esc_url( get_post_meta( $post_id, 'project_live_url', true ) );
+	$details      = '';
+
+	if ( ! empty( $year ) ) {
+		$details .= '<dt>' . esc_html__( 'Jahr', 'kacper-portfolio-core' ) . '</dt>';
+		$details .= '<dd>' . esc_html( $year ) . '</dd>';
+	}
+
+	if ( ! is_wp_error( $technologies ) && ! empty( $technologies ) ) {
+		$details .= '<dt>' . esc_html__( 'Technologien', 'kacper-portfolio-core' ) . '</dt><dd><ul>';
+		foreach ( $technologies as $technology ) {
+			$details .= '<li>' . esc_html( $technology->name ) . '</li>';
+		}
+		$details .= '</ul></dd>';
+	}
+
+	$links = '';
+	if ( '' !== $github_url ) {
+		$links .= '<li><a href="' . $github_url . '">' . esc_html__( 'GitHub', 'kacper-portfolio-core' ) . '</a></li>';
+	}
+	if ( '' !== $live_url ) {
+		$links .= '<li><a href="' . $live_url . '">' . esc_html__( 'Live Demo', 'kacper-portfolio-core' ) . '</a></li>';
+	}
+	if ( '' !== $links ) {
+		$details .= '<dt>' . esc_html__( 'Links', 'kacper-portfolio-core' ) . '</dt><dd><ul>' . $links . '</ul></dd>';
+	}
+
+	if ( '' === $details ) {
+		return '';
+	}
+
+	return '<dl ' . get_block_wrapper_attributes() . '>' . $details . '</dl>';
+}
+
+/**
  * Refresh project URLs once when the plugin is activated.
  */
 function kacper_portfolio_core_activate() {
