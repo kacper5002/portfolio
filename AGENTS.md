@@ -74,3 +74,13 @@ Personal portfolio website for Kacper Koszarski.
 - individual project pages
 - Lebenslauf / experience
 - Kontakt
+
+# Project memory
+
+- At the beginning of a new session or before continuing an existing multi-step task, read PROJECT_STATE.md.
+- After completing a meaningful logical stage, update PROJECT_STATE.md if the project state or next step changed.
+- Keep PROJECT_STATE.md concise.
+- Do not use it as a chronological log.
+- Do not duplicate information available in Git history.
+- Prefer updating existing bullets instead of continuously appending new ones.
+- Keep Completed and Next Steps short and current.
