@@ -5,6 +5,8 @@
     const { TextControl, Button } = wp.components;
     const { __ } = wp.i18n;
     const fields = {
+        greetingText: __('Greeting bubble (empty = language default)', 'kacper-portfolio'),
+        locationText: __('Location bubble (empty = language default)', 'kacper-portfolio'),
         aboutText: __('About: short description', 'kacper-portfolio'),
         projectsTitle: __('Projects: card title', 'kacper-portfolio'),
         projectsText: __('Projects: short description', 'kacper-portfolio'),

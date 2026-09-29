@@ -199,3 +199,24 @@ body.home footer p { margin: 0; }
     .portfolio-hub *, .portfolio-hub *::before, .portfolio-hub *::after { animation: none !important; transition: none !important; }
     .hub-card { transform: none !important; }
 }
+
+/* Two speech bubbles frame the portrait, as in the visual reference. */
+.hub-slot--about { margin-top: 24px; }
+.hub-bubble {
+    position: absolute; z-index: 4; display: flex; align-items: center; gap: 7px;
+    margin: 0; padding: 10px 13px; border-radius: 13px;
+    font-size: 11px; line-height: 1.4; font-weight: 500;
+    max-width: calc(100% - 12px); box-shadow: var(--hub-shadow);
+    pointer-events: none;
+}
+.hub-bubble--greeting { right: 0; bottom: calc(100% + 10px); background: var(--hub-ink); color: var(--hub-card); }
+.hub-bubble--greeting::after {
+    content: ''; position: absolute; right: 4px; bottom: -5px;
+    border-top: 9px solid var(--hub-ink); border-left: 9px solid transparent;
+}
+.hub-bubble--location { left: 12px; bottom: -15px; background: var(--hub-card); color: var(--hub-ink); border: 1px solid var(--hub-line); }
+.hub-bubble svg { flex-shrink: 0; }
+@media (min-width: 1100px) {
+    .hub-slot--about { margin-top: 0; }
+    .hub-bubble--location { left: -30px; }
+}
