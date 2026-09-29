@@ -127,13 +127,33 @@ html[data-theme="dark"] .theme-toggle__sun { opacity: 0; transform: rotate(60deg
 }
 
 /* Native Gutenberg social links: inherit the palette and stay keyboard accessible. */
-.portfolio-footer { padding: 16px 24px; color: var(--color-text-secondary); }
-.portfolio-footer__row { max-width: 1440px; margin-inline: auto; gap: 12px; }
-.portfolio-footer p { margin: 0; font-size: 12px; }
-.portfolio-footer__legal { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; }
-.portfolio-footer__legal a { color: inherit; text-underline-offset: 3px; }
-.portfolio-footer .portfolio-footer__social { margin: 0; gap: 6px; }
-.portfolio-footer .portfolio-footer__social .wp-social-link { color: var(--color-text); }
-.portfolio-footer .wp-social-link a { display: grid; place-items: center; min-width: 32px; min-height: 32px; box-sizing: border-box; }
-.portfolio-footer .wp-social-link svg { width: 20px; height: 20px; }
+.portfolio-footer {
+    --social-linkedin: #0a66c2;
+    --social-github: #6f42c1;
+    padding: 16px 24px; color: var(--color-text-secondary);
+}
+.portfolio-footer .portfolio-footer__row {
+    display: grid; grid-template-columns: 1fr;
+    justify-items: center; align-items: center; max-width: 1440px; margin-inline: auto; gap: 8px;
+}
+.portfolio-footer__row > p { grid-column: 1; grid-row: 2; }
+.portfolio-footer p { margin: 0; font-size: 12px; line-height: 1.4; }
+.portfolio-footer__legal { grid-column: 1; grid-row: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; font-size: 12px; }
+.portfolio-footer__legal a { display: inline-flex; align-items: center; min-height: 24px; color: inherit; text-underline-offset: 3px; }
+.portfolio-footer .portfolio-footer__social { grid-column: 1; grid-row: 1; margin: 0; gap: 16px; }
+.portfolio-footer .portfolio-footer__social .wp-social-link { color: var(--color-text); transform: none; transition: color .22s ease; }
+.portfolio-footer .wp-social-link-linkedin { --social-hover: var(--social-linkedin); }
+.portfolio-footer .wp-social-link-github { --social-hover: var(--social-github); }
+.portfolio-footer .portfolio-footer__social .wp-social-link:is(:hover, :focus-within) { color: var(--social-hover); }
+.portfolio-footer .wp-social-link a { display: grid; place-items: center; width: 56px; height: 56px; padding: 7px; box-sizing: border-box; transition: transform .22s ease; }
+.portfolio-footer .wp-social-link a:is(:hover, :focus-visible) { transform: translateY(-3px) scale(1.06); }
+.portfolio-footer .wp-social-link svg { width: 42px; height: 42px; }
 .portfolio-footer a:focus-visible { outline: 2px solid var(--color-text); outline-offset: 3px; }
+html[data-theme="dark"] .portfolio-footer { --social-linkedin: #378fe9; --social-github: #a98aec; }
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) .portfolio-footer { --social-linkedin: #378fe9; --social-github: #a98aec; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .portfolio-footer .wp-social-link, .portfolio-footer .wp-social-link a { transition: none; }
+    .portfolio-footer .wp-social-link a:is(:hover, :focus-visible) { transform: none; }
+}

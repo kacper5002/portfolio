@@ -19,7 +19,14 @@ add_action( 'init', 'kacper_portfolio_register_legal_links' );
 
 function kacper_portfolio_render_legal_links() {
 	$impressum = get_page_by_path( 'impressum', OBJECT, 'page' );
-	$ids = array( $impressum ? $impressum->ID : 0, absint( get_option( 'wp_page_for_privacy_policy' ) ) );
+	$privacy_id = absint( get_option( 'wp_page_for_privacy_policy' ) );
+	// Polylang returns no selected privacy page if this language has no translation.
+	// Keep the existing German document reachable until translated pages are ready.
+	if ( ! $privacy_id ) {
+		$privacy = get_page_by_path( 'datenschutzerklaerung', OBJECT, 'page' );
+		$privacy_id = $privacy ? $privacy->ID : 0;
+	}
+	$ids = array( $impressum ? $impressum->ID : 0, $privacy_id );
 	$lang = function_exists( 'pll_current_language' ) ? pll_current_language() : '';
 	$links = array();
 	foreach ( array_unique( $ids ) as $id ) {

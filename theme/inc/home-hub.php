@@ -49,7 +49,7 @@ function kacper_portfolio_render_home_hub( $attributes, $content = '', $block = 
 	$greeting = $attributes['greetingText'] ?: ( $greetings[ $lang ] ?? $greetings['de'] );
 	$greeting_lines = preg_split( '/(?<=Kacper)\s+/u', $greeting, 2 );
 	$pages = array();
-	foreach ( array( 'about' => 'ueber-mich', 'resume' => 'lebenslauf', 'contact' => 'kontakt' ) as $key => $slug ) {
+	foreach ( array( 'about' => 'ueber-mich', 'contact' => 'kontakt' ) as $key => $slug ) {
 		$pages[ $key ] = kacper_portfolio_hub_page( $slug, $lang );
 	}
 	$args = array( 'post_type' => 'project', 'post_status' => 'publish', 'has_password' => false, 'numberposts' => 1, 'orderby' => array( 'menu_order' => 'ASC', 'date' => 'DESC' ), 'suppress_filters' => false );
@@ -65,7 +65,6 @@ function kacper_portfolio_render_home_hub( $attributes, $content = '', $block = 
 	$cards = array(
 		'about' => array( 'page' => $pages['about'], 'text' => $attributes['aboutText'] ),
 		'projects' => array( 'page' => null, 'text' => $attributes['projectsText'] ),
-		'resume' => array( 'page' => $pages['resume'], 'text' => $attributes['resumeText'] ),
 		'contact' => array( 'page' => $pages['contact'], 'text' => $attributes['contactText'] ),
 	);
 	ob_start();

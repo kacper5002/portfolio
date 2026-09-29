@@ -1,4 +1,4 @@
-/* A four-card homepage. Subpage presentation is deliberately outside this file. */
+/* A three-card homepage. Subpage presentation is deliberately outside this file. */
 body.home {
     --hub-background: #f5f5f3;
     --hub-card: #ffffff;
@@ -107,7 +107,7 @@ body.home .is-menu-open .portfolio-navigation__menu {
     body.home .hub-menu-enhanced .portfolio-navigation__menu { transition: none; }
     .hub-menu-button:hover, .hub-menu-button:active { transform: none; }
 }
-/* Four photographic panels; reading order stays the same on every screen. */
+/* Three photographic panels; reading order stays the same on every screen. */
 .portfolio-hub { box-sizing: border-box; position: relative; width: 100%; padding: 65px 22px 40px; isolation: isolate; }
 .hub-caption { margin: 0 auto 72px; max-width: 100%; color: var(--hub-ink); font-size: clamp(30px, 4vw, 58px); font-weight: 500; line-height: 1.2; letter-spacing: -.045em; text-align: center; }
 .hub-caption__line { display: block; overflow: hidden; padding-block: .08em; }
@@ -141,7 +141,8 @@ body.home footer p { margin: 0; }
 @media (min-width: 600px) {
     .portfolio-hub { padding: 80px 36px 50px; max-width: 850px !important; }
     .hub-stage { grid-template-columns: 1fr 1fr; gap: 48px 36px; align-items: start; }
-    .hub-slot--projects, .hub-slot--contact { margin-top: 65px; }
+    .hub-slot--projects { margin-top: 65px; }
+    .hub-slot--contact { grid-column: 1 / -1; justify-self: center; width: calc((100% - 36px) / 2); }
     .hub-card { min-height: 470px; }
 }
 /* Fit the desktop composition to the available viewport, without clipping content.
@@ -156,21 +157,21 @@ body.home footer p { margin: 0; }
     body.home .home-page { flex: 1; min-height: 0; }
     .home-page > .wp-block-post-content { height: 100%; }
     .home-page .portfolio-hub {
+        --hub-card-lift: clamp(16px, 3svh, 28px);
         height: 100%; max-width: 1520px !important; padding: 0 32px;
         display: grid; grid-template-rows: auto minmax(0, 1fr);
-        row-gap: clamp(28px, 5svh, 60px);
+        row-gap: calc(clamp(28px, 5svh, 60px) - var(--hub-card-lift));
     }
     .hub-caption { margin: clamp(16px, 3svh, 36px) auto 0; font-size: clamp(30px, 5.2svh, 52px); }
     .hub-stage {
-        grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr);
         gap: clamp(18px, 2vw, 28px); min-height: 0; width: 100%; height: 100%;
-        max-width: min(1440px, 155svh); margin: 0 auto; padding: 12px 0 28px;
+        max-width: min(1080px, 116svh); margin: 0 auto; padding: 12px 0 calc(28px + var(--hub-card-lift));
     }
     .hub-slot { margin-top: var(--card-offset); height: calc(100% - clamp(40px, 7svh, 72px)); max-height: 560px; }
     .hub-slot--about { --card-offset: clamp(12px, 2svh, 24px); }
     .hub-slot--projects { --card-offset: clamp(40px, 7svh, 72px); }
-    .hub-slot--resume { --card-offset: 0px; }
-    .hub-slot--contact { --card-offset: clamp(24px, 4.5svh, 48px); }
+    .hub-slot--contact { --card-offset: 0px; grid-column: auto; justify-self: stretch; width: auto; }
     .hub-card { min-height: 0; height: 100%; }
     .hub-card h2 { font-size: clamp(26px, 3.8svh, 40px); }
     .hub-card__copy { padding-inline: 20px; }
@@ -192,8 +193,7 @@ body.home footer p { margin: 0; }
 /* Masked type reveal and a gently unfolding sequence of photographic panels. */
 .hub-slot--about { --entry-angle: -4deg; }
 .hub-slot--projects { --entry-angle: -2deg; --entry-delay: .10s; }
-.hub-slot--resume { --entry-angle: 2deg; --entry-delay: .20s; }
-.hub-slot--contact { --entry-angle: 4deg; --entry-delay: .30s; }
+.hub-slot--contact { --entry-angle: 4deg; --entry-delay: .20s; }
 @media (prefers-reduced-motion: no-preference) {
     .hub-caption__line > span { animation: hub-type-in .9s cubic-bezier(.16,1,.3,1) both; }
     .hub-caption__line + .hub-caption__line > span { animation-delay: .14s; }

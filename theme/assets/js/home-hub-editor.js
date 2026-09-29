@@ -8,14 +8,17 @@
         aboutText: 'Über mich: Kurzbeschreibung',
         projectsTitle: 'Projekte: Kartentitel',
         projectsText: 'Projekte: Kurzbeschreibung',
-        resumeText: 'Lebenslauf: Kurzbeschreibung',
         contactText: 'Kontakt: Kurzbeschreibung',
     };
     const images = {
         portraitId: 'Über mich: Foto', projectsImageId: 'Projekte: Bild',
-        resumeImageId: 'Lebenslauf: Bild', contactImageId: 'Kontakt: Bild',
+        contactImageId: 'Kontakt: Bild',
     };
-    const attributes = {};
+    // Preserve previously saved Resume values without exposing an unused card.
+    const attributes = {
+        resumeText: { type: 'string', default: '' },
+        resumeImageId: { type: 'integer', default: 0 },
+    };
     Object.keys(images).forEach(key => attributes[key] = { type: 'integer', default: 0 });
     Object.keys(fields).forEach(key => attributes[key] = { type: 'string', default: '' });
     wp.blocks.registerBlockType('kacper-portfolio/home-hub', {
@@ -25,7 +28,7 @@
             const [showPreview, setShowPreview] = wp.element.useState(true);
             return el('div', useBlockProps({ className: 'portfolio-hub-editor' }),
                 el('h2', null, 'Portfolio Startseite'),
-                el('p', null, 'Hier Begrüßung, Beschreibungen und Bilder bearbeiten. Die Titel von Über mich, Lebenslauf und Kontakt folgen den verknüpften Seiten. Jede Sprache hat eigene Inhalte.'),
+                el('p', null, 'Hier Begrüßung, Beschreibungen und Bilder der drei Karten bearbeiten. Die Titel von Über mich und Kontakt folgen den verknüpften Seiten. Jede Sprache hat eigene Inhalte.'),
                 ...Object.entries(fields).map(([key, label]) => el(TextControl, {
                     key, label, value: attributes[key], onChange: value => setAttributes({ [key]: value }),
                 })),
