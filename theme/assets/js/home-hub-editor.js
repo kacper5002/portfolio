@@ -5,8 +5,7 @@
     const { TextControl, Button } = wp.components;
     const { __ } = wp.i18n;
     const fields = {
-        greetingText: __('Greeting bubble (empty = language default)', 'kacper-portfolio'),
-        locationText: __('Location bubble (empty = language default)', 'kacper-portfolio'),
+        greetingText: __('Introduction above cards (empty = language default)', 'kacper-portfolio'),
         aboutText: __('About: short description', 'kacper-portfolio'),
         projectsTitle: __('Projects: card title', 'kacper-portfolio'),
         projectsText: __('Projects: short description', 'kacper-portfolio'),
@@ -21,7 +20,7 @@
         edit({ attributes, setAttributes }) {
             return el('div', useBlockProps(),
                 el('h2', null, 'Portfolio hub'),
-                el('p', null, __('Four cards. Page titles and links follow WordPress and Polylang. The project preview uses its featured image when available.', 'kacper-portfolio')),
+                el('p', null, __('Four cards. Page titles and links follow WordPress and Polylang. AI category illustrations are used by default; the project card uses a featured image when available.', 'kacper-portfolio')),
                 ...Object.entries(fields).map(([key, label]) => el(TextControl, { key, label, value: attributes[key], onChange: value => setAttributes({ [key]: value }) })),
                 el(MediaUploadCheck, null, el(MediaUpload, {
                     allowedTypes: ['image'], value: attributes.portraitId,

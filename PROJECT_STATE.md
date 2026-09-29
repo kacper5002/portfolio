@@ -19,7 +19,7 @@ Profesjonalne portfolio Kacpra Koszarskiego w DE / EN / PL, z ręcznymi tłumacz
 - Dynamiczny blok `kacper-portfolio/project-details`: PHP `render_callback`, dane pod tytułem projektu; pomija puste wartości.
 
 ## Current State
-- Homepage DE/EN/PL jest asymetrycznym hubem czterech kart: About, Projekte, Resume, Contact. Kompozycja oparta na aktualnym, obejrzanym `reference/image.png`: centralne karty, dużo whitespace, ogromny subtelny napis w tle. Referencja nie jest publicznym assetem.
+- Homepage DE/EN/PL jest hubem czterech powiększonych pionowych prostokątnych kart z narożnikami 4 px, przesuniętych względem siebie: About, Projekte, Resume, Contact. Kompozycja oparta na aktualnym, obejrzanym `reference/image.png`: centralne karty i dużo whitespace; napis oraz kropki w tle usunięte zgodnie z obecną decyzją użytkownika. Referencja nie jest publicznym assetem.
 - `page.html` wyświetla tytuł H1 i treść Gutenberga pomiędzy headerem a footerem.
 - Istnieje 9 opublikowanych stron z tymczasową treścią DE/EN/PL. Grupy Polylang: About (DE 9 / EN 10 / PL 11), Resume (12 / 13 / 14), Contact (15 / 16 / 17); powiązania i szablony zweryfikowano przez API.
 - Użytkownik potwierdził konfigurację Polylang Free: Deutsch domyślny bez prefiksu, English `/en/`, Polski `/pl/`; `project` i `project_technology` obsługują wielojęzyczność.
@@ -33,15 +33,15 @@ Profesjonalne portfolio Kacpra Koszarskiego w DE / EN / PL, z ręcznymi tłumacz
 
 - Motyw obsługuje light/dark: prawdziwie czarne tło dark mode (`#000000`), neutralne zmienne kolorów w `style.css`, `data-theme` na html, wczesna inicjalizacja w `functions.php`, asset `assets/js/theme-toggle.js`; wybór `portfolio-theme` w localStorage ma pierwszeństwo przed systemem i jest wspólny dla DE/EN/PL.
 - Header homepage: powiększony podpis: logo KK 26 × 30 px i nazwisko 20 px na desktopie, odstęp 3 px; mobile logo 24 × 28 px i tekst 17–18 px, centralny pasek 380 px rozwijany do 720 px (na mniejszych ekranach linki w dodatkowym rzędzie). DE/EN/PL i animowany suwak sun/moon są osobno w prawym górnym rogu; poniżej 1200 px mają własny rząd nad paskiem. Enter/Tab/Escape, inert i reduced motion; bez JS menu widoczne. Logo dziedziczy kolor motywu, oryginał SVG zachowany.
-- `assets/css/home.css` / `assets/js/home.js`: asymetryczny desktop, dwie kolumny tablet, jedna mobile; tilt do ±3,5° tylko dla myszy, subtelne wejście i reduced motion.
-- Karta About ma dymki powitania i lokalizacji Leipzig jak w referencji; teksty DE/EN/PL, edytowalne w bloku, kolory light/dark.
-- Hub należy do motywu (`inc/home-hub.php`, natywny edytor bloku): tytuły i linki stron z WordPress/Polylang, podgląd projektu z CPT. MSP Monitoring bez featured image — prawdziwy tytuł zamiast fikcyjnego screenshotu; danych projektu nie zmieniano. Poprzedni blok selected-projects pozostaje dostępny w pluginie, ale homepage go nie używa.
+- `assets/css/home.css` / `assets/js/home.js`: asymetryczny desktop, dwie kolumny tablet, jedna mobile; tilt do ±3,5° i parallax zdjęć tylko dla myszy, odsłonięcie dwóch linii powitania, rozłożenie kart przy wejściu w ekran (IntersectionObserver), refleks pod kursorem, zoom zdjęć i animowane strzałki; reduced motion wyłącza ruch.
+- Nad kartami jest edytowalne „Hey! Ich bin Kacper und das ist mein Portfolio.” i odpowiedniki EN/PL („Hej! Jestem Kacper a to moje portfolio.”), w dwóch liniach z odstępem 96 px do kart na desktopie / 72 px na mniejszych ekranach; dymki About usunięte. Zdjęcia i nazwy są stale widoczne: grayscale w spoczynku, kolor i powiększenie 1.035 na hover/focus, wtedy też pojawia się opis. Na dotyku pełna treść bez konieczności hover.
+- Hub należy do motywu (`inc/home-hub.php`, natywny edytor bloku): tytuły i linki stron z WordPress/Polylang, featured image projektu z CPT, jeśli istnieje. Domyślne grafiki kategorii Projekte / Resume / Contact wygenerowano przez imagegen i zapisano jako zoptymalizowane `assets/images/hub-*.jpg`; to ilustracje, nie screenshoty MSP ani dokumenty CV. Prompty: `assets/images/GENERATED.md`. Danych projektu nie zmieniano. Poprzedni blok selected-projects pozostaje dostępny w pluginie, ale homepage go nie używa.
 - Portret z `projectpictures/aboutme.png` dodany przez API do mediów WordPressa (ID 24), wybierany w bloku. Oryginalne zdjęcia i referencja pozostały nietknięte.
 - `page-transitions.css/js`: natywne cross-document View Transitions między kartą a main podstrony, również Wstecz. Zwykłe URL-e i linki; brak SPA, fetchowania stron i opóźniania kliknięć. Dodatkowe assety na docelowych stronach służą tylko przejściom; layouty nietknięte.
 - Testy Chrome: DE/EN/PL × 1440/1024/768/390 px × light/dark bez overflow; 12 kliknięć kart, reload/Wstecz, Menu klawiaturą, system/localStorage, reduced motion i brak tilt na dotyku. HTTP 200; brak JS errors i PHP warnings/notices. Gutenberg rozpoznaje poprawny blok hub we wszystkich trzech wersjach. Potwierdzono nienaruszone dane podstron, projektów i grupy tłumaczeń.
 
 ## Current Task
-Header z logo po lewej oraz oddzielnym wyborem języka i suwakiem motywu gotowy do oceny. Testy: 36 stanów układu (DE/EN/PL, 320–1440 px, menu otwarte/zamknięte), animacja ikon/suwaka, klawiatura, reduced motion, localStorage i linki Polylang; brak kolizji, overflow i błędów JS. Nie projektować kolejnych podstron przed oceną użytkownika.
+Do oceny: dwuliniowe powitanie z pełnym zdaniem użytkownika, większy odstęp do kart oraz wyraźniejsze animacje wejścia i refleks pod kursorem. Sprawdzono 390/768/1440 px bez overflow, odkrywanie kart przy scrollu, hover, reduced motion, brak błędów JS i poprawną składnię PHP.
 
 ## Next Steps
 Pojedynczo:

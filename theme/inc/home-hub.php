@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function kacper_portfolio_register_home_hub() {
 	wp_register_script( 'kacper-home-hub-editor', get_theme_file_uri( '/assets/js/home-hub-editor.js' ), array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n' ), filemtime( __DIR__ . '/../assets/js/home-hub-editor.js' ), true );
 	$attributes = array( 'portraitId' => array( 'type' => 'integer', 'default' => 0 ) );
-	foreach ( array( 'greetingText', 'locationText', 'aboutText', 'projectsTitle', 'projectsText', 'resumeText', 'contactText' ) as $key ) {
+	foreach ( array( 'greetingText', 'aboutText', 'projectsTitle', 'projectsText', 'resumeText', 'contactText' ) as $key ) {
 		$attributes[ $key ] = array( 'type' => 'string', 'default' => '' );
 	}
 	register_block_type( 'kacper-portfolio/home-hub', array(
@@ -34,14 +34,13 @@ function kacper_portfolio_hub_page( $slug, $lang ) {
 
 function kacper_portfolio_render_home_hub( $attributes ) {
 	$lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'de';
-	$bubble_labels = array(
-		'de' => array( 'Hi, ich bin Kacper Koszarski', 'Zuhause in Leipzig' ),
-		'en' => array( 'Hi, I’m Kacper Koszarski', 'Based in Leipzig' ),
-		'pl' => array( 'Cześć, jestem Kacper Koszarski', 'Mieszkam w Lipsku' ),
+	$greetings = array(
+		'de' => 'Hey! Ich bin Kacper und das ist mein Portfolio.',
+		'en' => 'Hey! I’m Kacper and this is my portfolio.',
+		'pl' => 'Hej! Jestem Kacper a to moje portfolio.',
 	);
-	$bubbles = $bubble_labels[ $lang ] ?? $bubble_labels['de'];
-	$greeting = $attributes['greetingText'] ?: $bubbles[0];
-	$location = $attributes['locationText'] ?: $bubbles[1];
+	$greeting = $attributes['greetingText'] ?: ( $greetings[ $lang ] ?? $greetings['de'] );
+	$greeting_lines = preg_split( '/(?<=Kacper)\s+/u', $greeting, 2 );
 	$pages = array();
 	foreach ( array( 'about' => 'ueber-mich', 'resume' => 'lebenslauf', 'contact' => 'kontakt' ) as $key => $slug ) {
 		$pages[ $key ] = kacper_portfolio_hub_page( $slug, $lang );
@@ -65,9 +64,7 @@ function kacper_portfolio_render_home_hub( $attributes ) {
 	ob_start();
 	?>
 	<div <?php echo get_block_wrapper_attributes( array( 'class' => 'portfolio-hub' ) ); ?>>
-		<h1 class="screen-reader-text"><?php echo esc_html( get_bloginfo( 'name' ) ); ?> — Portfolio</h1>
-		<div class="hub-background" aria-hidden="true"><span>KACPER</span><span>KOSZARSKI</span></div>
-		<div class="hub-caption" aria-hidden="true">DIGITAL PORTFOLIO <span>↘</span></div>
+		<h1 class="hub-caption"><?php foreach ( $greeting_lines as $line ) : ?><span class="hub-caption__line"><span><?php echo esc_html( $line ); ?></span></span> <?php endforeach; ?></h1>
 		<div class="hub-stage">
 		<?php foreach ( $cards as $key => $card ) :
 			$url = 'projects' === $key ? $archive : ( $card['page'] ? get_permalink( $card['page'] ) : '' );
@@ -77,30 +74,20 @@ function kacper_portfolio_render_home_hub( $attributes ) {
 			<article class="hub-slot hub-slot--<?php echo esc_attr( $key ); ?>">
 				<a class="hub-card hub-card--<?php echo esc_attr( $key ); ?>" data-hub-card="<?php echo esc_attr( $key ); ?>" href="<?php echo esc_url( $url ); ?>" aria-labelledby="hub-title-<?php echo esc_attr( $key ); ?>">
 					<span class="hub-arrow" aria-hidden="true">↗</span>
+					<div class="hub-card__media" aria-hidden="true">
 					<?php if ( 'about' === $key && ! empty( $attributes['portraitId'] ) ) : ?>
 						<?php echo wp_get_attachment_image( absint( $attributes['portraitId'] ), 'large', false, array( 'class' => 'hub-portrait', 'alt' => '', 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => '(min-width: 1100px) 360px, (min-width: 600px) 45vw, 90vw' ) ); ?>
-					<?php elseif ( 'projects' === $key ) : ?>
-						<div class="hub-project-visual" aria-hidden="true">
-						<?php if ( $project && has_post_thumbnail( $project ) ) : ?>
+					<?php elseif ( 'projects' === $key && $project && has_post_thumbnail( $project ) ) : ?>
 							<?php echo get_the_post_thumbnail( $project, 'large', array( 'alt' => '', 'class' => 'hub-project-image' ) ); ?>
-						<?php elseif ( $project ) : ?>
-							<div class="hub-project-type"><span class="hub-project-mark">[ M ]</span><strong><?php echo esc_html( get_the_title( $project ) ); ?></strong><span class="hub-project-rule"></span></div>
-						<?php endif; ?>
-						</div>
-					<?php elseif ( 'resume' === $key ) : ?>
-						<div class="hub-document" aria-hidden="true"><span>KK.</span><i></i><i></i><i></i><i></i></div>
-					<?php elseif ( 'contact' === $key ) : ?>
-						<div class="hub-contact-mark" aria-hidden="true">↗</div>
+					<?php elseif ( 'about' !== $key ) : ?>
+						<img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/hub-' . $key . '.jpg' ) ); ?>" width="800" height="1200" alt="" decoding="async">
 					<?php endif; ?>
+					</div>
 					<div class="hub-card__copy">
 						<h2 id="hub-title-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $title ); ?></h2>
 						<p><?php echo esc_html( $card['text'] ); ?></p>
 					</div>
 				</a>
-				<?php if ( 'about' === $key ) : ?>
-					<p class="hub-bubble hub-bubble--greeting"><span aria-hidden="true">👋</span> <?php echo esc_html( $greeting ); ?></p>
-					<p class="hub-bubble hub-bubble--location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><?php echo esc_html( $location ); ?></p>
-				<?php endif; ?>
 			</article>
 		<?php endforeach; ?>
 		</div>

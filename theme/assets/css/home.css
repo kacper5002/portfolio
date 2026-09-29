@@ -2,12 +2,12 @@
 body.home {
     --hub-background: #f5f5f3;
     --hub-card: #ffffff;
-    --hub-ghost: #e7e7e3;
     --hub-ink: #111111;
     --hub-muted: #63635e;
     --hub-line: #e8e8e4;
     --hub-preview: #e9e9e4;
     --hub-photo-text: #ffffff;
+    --hub-photo-ink: #111111;
     --hub-shadow: 0 8px 24px rgb(0 0 0 / .035), 0 1px 3px rgb(0 0 0 / .035);
     background: var(--hub-background);
     color: var(--hub-ink);
@@ -17,7 +17,6 @@ body.home {
 html[data-theme="dark"] body.home {
     --hub-background: #000000;
     --hub-card: #0c0c0c;
-    --hub-ghost: #151515;
     --hub-ink: #f2f2ee;
     --hub-muted: #b3b3ac;
     --hub-line: #262626;
@@ -26,7 +25,7 @@ html[data-theme="dark"] body.home {
 }
 @media (prefers-color-scheme: dark) {
     html:not([data-theme]) body.home {
-        --hub-background: #000000; --hub-card: #0c0c0c; --hub-ghost: #151515;
+        --hub-background: #000000; --hub-card: #0c0c0c;
         --hub-ink: #f2f2ee; --hub-muted: #b3b3ac; --hub-line: #262626;
         --hub-preview: #161616; --hub-shadow: 0 8px 28px rgb(0 0 0 / .16);
     }
@@ -108,115 +107,111 @@ body.home .is-menu-open .portfolio-navigation__menu {
     body.home .hub-menu-enhanced .portfolio-navigation__menu { transition: none; }
     .hub-menu-button:hover, .hub-menu-button:active { transform: none; }
 }
-/* Mobile first: logical reading order, with no pointer effects. */
+/* Four photographic panels; reading order stays the same on every screen. */
 .portfolio-hub { box-sizing: border-box; position: relative; width: 100%; padding: 65px 22px 40px; isolation: isolate; }
-.hub-background { position: absolute; inset: 32px 0 auto; z-index: -1; overflow: hidden; color: var(--hub-ghost); font-size: clamp(64px, 14vw, 180px); font-weight: 600; line-height: .88; letter-spacing: -.075em; text-align: center; pointer-events: none; }
-.hub-background span { display: block; }
-.hub-caption { margin: 0 0 25px; display: flex; justify-content: space-between; color: var(--hub-muted); font: 9px/1.5 monospace; letter-spacing: .13em; }
-.hub-caption span { font-size: 16px; }
-.hub-stage { display: grid; gap: 24px; perspective: 1400px; }
-.hub-slot { min-width: 0; margin: 0; position: relative; }
+.hub-caption { margin: 0 auto 72px; max-width: 100%; color: var(--hub-ink); font-size: clamp(30px, 4vw, 58px); font-weight: 500; line-height: 1.2; letter-spacing: -.045em; text-align: center; }
+.hub-caption__line { display: block; overflow: hidden; padding-block: .08em; }
+.hub-caption__line > span { display: block; }
+.hub-caption__line + .hub-caption__line { margin-top: 10px; font-size: .56em; font-weight: 400; letter-spacing: -.025em; line-height: 1.4; color: var(--hub-muted); }
+.hub-stage { position: relative; display: grid; gap: 42px; perspective: 1400px; }
+.hub-slot { z-index: 1; min-width: 0; margin: 0; position: relative; }
 .hub-card {
     display: flex; flex-direction: column; justify-content: flex-end;
-    height: 100%; min-height: 240px; position: relative; isolation: isolate;
-    border: 1px solid var(--hub-line); border-radius: 22px;
-    background: var(--hub-card); color: var(--hub-ink); text-decoration: none;
+    height: 100%; min-height: 450px; position: relative; isolation: isolate;
+    border-radius: 4px; background: var(--hub-preview); color: var(--hub-photo-text); text-decoration: none;
     box-shadow: var(--hub-shadow); transform-style: preserve-3d;
     transform: perspective(1000px) translate3d(var(--dx, 0px), var(--dy, 0px), 0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-    transition: transform .3s ease-out, box-shadow .3s ease-out;
+    transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease, scale .5s cubic-bezier(.2,.7,.2,1);
 }
-.hub-card:hover { box-shadow: 0 16px 36px rgb(0 0 0 / .09), 0 2px 5px rgb(0 0 0 / .04); }
-.hub-card__copy { position: relative; z-index: 2; padding: 26px; transform: translateZ(18px); }
-.hub-card h2 { font-size: 27px; line-height: 1.1; letter-spacing: -.055em; font-weight: 500; margin: 0; color: inherit; }
-.hub-card p { font-size: 12px; line-height: 1.6; margin: 10px 0 0; max-width: 230px; color: var(--hub-muted); }
-.hub-arrow { position: absolute; top: 17px; right: 17px; width: 34px; height: 34px; display: grid; place-items: center; font-size: 19px; border: 1px solid var(--hub-line); border-radius: 50%; z-index: 3; transform: translateZ(24px); }
-.hub-card--about { min-height: 430px; color: var(--hub-photo-text); border: 0; }
-.hub-portrait { position: absolute; width: 100%; height: 100%; inset: 0; object-fit: cover; object-position: 50% 45%; border-radius: inherit; }
-.hub-card--about::after { content: ''; position: absolute; inset: 35% 0 0; border-radius: 0 0 22px 22px; background: linear-gradient(transparent, rgb(0 0 0 / .82)); }
-.hub-card--about p { color: var(--hub-photo-text); }
-.hub-card--about .hub-arrow { border-color: rgb(255 255 255 / .35); background: rgb(0 0 0 / .14); }
-.hub-card--projects { min-height: 365px; }
-.hub-project-visual { flex: 1; min-height: 240px; margin: 12px 12px 0; border-radius: 13px; overflow: hidden; background: var(--hub-preview); position: relative; }
-.hub-project-image { width: 100%; height: 100%; object-fit: cover; position: absolute; }
-.hub-project-type { display: flex; flex-direction: column; justify-content: center; min-height: 240px; padding: 28px; }
-.hub-project-mark { font: 12px/1 monospace; margin-bottom: 27px; color: var(--hub-muted); }
-.hub-project-type strong { font-size: 38px; font-weight: 500; line-height: .98; letter-spacing: -.055em; max-width: 200px; }
-.hub-project-rule { margin-top: 24px; width: 40px; height: 2px; background: currentColor; }
-.hub-card--projects .hub-arrow { background: var(--hub-card); }
-.hub-card--resume { min-height: 285px; overflow: hidden; }
-.hub-document { width: 112px; height: 132px; align-self: center; margin: 30px 0 4px; padding: 16px; border: 1px solid var(--hub-line); background: var(--hub-background); border-radius: 3px; transform: rotate(-8deg) translateZ(12px); box-shadow: 3px 4px 0 var(--hub-preview); }
-.hub-document span { display: block; font-size: 15px; font-weight: 600; letter-spacing: -.04em; margin-bottom: 17px; }
-.hub-document i { display: block; height: 2px; background: var(--hub-muted); opacity: .4; margin-top: 7px; }
-.hub-document i:nth-last-child(2) { width: 60%; margin-top: 14px; }
-.hub-card--contact { min-height: 225px; }
-.hub-contact-mark { padding: 10px 24px; font-size: 75px; font-weight: 300; line-height: 1; letter-spacing: -.08em; transform: translateZ(12px); }
+/* Clip only the image, leaving the keyboard focus ring and depth free. */
+.hub-card__media { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; }
+.hub-card__media img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    transform: translate(var(--image-x, 0px), var(--image-y, 0px)) scale(1.04);
+    transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .65s ease;
+}
+.hub-card__media .hub-portrait { object-position: 50% 45%; }
+.hub-card::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(180deg, rgb(0 0 0 / .04) 30%, rgb(0 0 0 / .25) 62%, rgb(0 0 0 / .85) 100%); }
+.hub-card__copy { position: relative; z-index: 2; padding: 28px; transform: translateZ(18px); }
+.hub-card h2 { font-size: 32px; line-height: 1.1; letter-spacing: -.055em; font-weight: 500; margin: 0; color: inherit; }
+.hub-card p { font-size: 13px; line-height: 1.6; margin: 12px 0 0; max-width: 250px; color: inherit; }
+.hub-arrow { position: absolute; top: 18px; right: 18px; width: 36px; height: 36px; display: grid; place-items: center; font-size: 20px; border: 1px solid rgb(255 255 255 / .45); background: rgb(0 0 0 / .22); border-radius: 50%; z-index: 3; transform: translateZ(24px); transition: transform .45s ease, background .4s ease, color .4s ease; }
 body.home footer.wp-block-group { margin: 0; padding: 15px 24px 25px; text-align: center; color: var(--hub-muted); font-size: 10px; }
 body.home footer p { margin: 0; }
-/* Tablet: two unequal rows; no scattered layout squeezed onto small screens. */
 @media (min-width: 600px) {
-    .portfolio-hub { padding: 80px 36px 50px; max-width: 950px !important; }
-    .hub-stage { grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
-    .hub-slot--about { grid-row: span 1; }
-    .hub-slot--projects { margin-top: 45px; }
-    .hub-slot--resume { margin-top: 0; }
-    .hub-slot--contact { margin-top: 40px; }
-    .hub-card--about { height: 455px; }
-    .hub-card--resume { min-height: 280px; }
+    .portfolio-hub { padding: 80px 36px 50px; max-width: 850px !important; }
+    .hub-stage { grid-template-columns: 1fr 1fr; gap: 48px 36px; align-items: start; }
+    .hub-slot--projects, .hub-slot--contact { margin-top: 65px; }
+    .hub-card { min-height: 470px; }
 }
-/* Desktop: central portrait and work, with two quieter satellite cards. */
-@media (min-width: 1100px) {
-    .portfolio-hub { max-width: 1400px !important; padding: 0 40px; }
-    .hub-caption { position: absolute; top: 60px; left: 7%; width: 150px; }
-    .hub-background { top: 220px; font-size: clamp(130px, 12.5vw, 185px); line-height: .88; }
-    .hub-stage { position: relative; display: block; height: clamp(680px, calc(100svh - 135px), 850px); max-width: 1230px; margin: auto; }
-    .hub-slot { position: absolute; }
-    .hub-slot--about { width: 29%; top: 155px; left: 49%; z-index: 2; }
-    .hub-slot--projects { width: 26%; top: 65px; left: 19%; margin: 0; z-index: 1; }
-    .hub-slot--resume { width: 18%; top: 410px; left: 0; margin: 0; }
-    .hub-slot--contact { width: 19%; top: 50px; right: 0; margin: 0; }
-    .hub-card--about { height: 455px; }
-    .hub-card--projects { min-height: 365px; }
-    .hub-card--resume { min-height: 265px; }
-    .hub-card--contact { min-height: 230px; }
-    .hub-card__copy { padding: 24px; }
-    .hub-card--about h2 { font-size: 32px; }
-    .hub-card--resume h2, .hub-card--contact h2 { font-size: 25px; }
-    .hub-card--resume p { max-width: 175px; }
+/* Fit the desktop composition to the available viewport, without clipping content.
+   Very short windows and zoomed/mobile layouts retain normal document scrolling. */
+@media (min-width: 1000px) and (min-height: 600px) {
+    body.home .wp-site-blocks {
+        display: flex; flex-direction: column;
+        height: calc(100svh - var(--wp-admin--admin-bar--height, 0px));
+        min-height: 568px;
+    }
+    body.home .wp-site-blocks > * { margin-block: 0; }
+    body.home .home-page { flex: 1; min-height: 0; }
+    .home-page > .wp-block-post-content { height: 100%; }
+    .home-page .portfolio-hub {
+        height: 100%; max-width: 1520px !important; padding: 0 32px;
+        display: grid; grid-template-rows: auto minmax(0, 1fr);
+        row-gap: clamp(28px, 5svh, 60px);
+    }
+    .hub-caption { margin: clamp(16px, 3svh, 36px) auto 0; font-size: clamp(30px, 5.2svh, 52px); }
+    .hub-stage {
+        grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr);
+        gap: clamp(18px, 2vw, 28px); min-height: 0; width: 100%; height: 100%;
+        max-width: min(1440px, 155svh); margin: 0 auto; padding: 12px 0 28px;
+    }
+    .hub-slot { margin-top: var(--card-offset); height: calc(100% - clamp(40px, 7svh, 72px)); max-height: 560px; }
+    .hub-slot--about { --card-offset: clamp(12px, 2svh, 24px); }
+    .hub-slot--projects { --card-offset: clamp(40px, 7svh, 72px); }
+    .hub-slot--resume { --card-offset: 0px; }
+    .hub-slot--contact { --card-offset: clamp(24px, 4.5svh, 48px); }
+    .hub-card { min-height: 0; height: 100%; }
+    .hub-card h2 { font-size: clamp(26px, 3.8svh, 40px); }
+    .hub-card__copy { padding-inline: 20px; }
+    body.home footer.wp-block-group { padding-block: 8px 14px; }
 }
-@media (max-width: 420px) {
-    .hub-card--about { min-height: 410px; }
+/* The photo stays visible; color, depth, arrow and description respond together. */
+@media (hover: hover) and (pointer: fine) {
+    .hub-card__media img { filter: grayscale(1); }
+    .hub-card::before { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none; opacity: 0; background: radial-gradient(ellipse at var(--light-x, 50%) var(--light-y, 30%), rgb(255 255 255 / .24), transparent 65%); transition: opacity .5s ease; }
+    .hub-card:hover::before { opacity: 1; }
+    .hub-slot:has(.hub-card:is(:hover, :focus)) { z-index: 2; }
+    .hub-card:is(:hover, :focus) { scale: 1.035; box-shadow: 0 30px 55px -20px rgb(0 0 0 / .35); }
+    .hub-card:is(:hover, :focus) .hub-card__media img { filter: grayscale(0); transform: translate(var(--image-x, 0px), var(--image-y, 0px)) scale(1.11); }
+    .hub-card:is(:hover, :focus) .hub-arrow { transform: translate3d(2px,-2px,28px) rotate(45deg); background: var(--hub-photo-text); color: var(--hub-photo-ink); }
+    .hub-card__copy { position: absolute; left: 0; right: 0; bottom: 28px; padding: 0 26px; }
+    .hub-card__copy p { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; translate: 0 8px; transition: max-height .45s cubic-bezier(.2,.7,.2,1), opacity .4s ease, margin .45s ease, translate .45s ease; }
+    .hub-card:is(:hover, :focus) .hub-card__copy p { max-height: 140px; opacity: 1; margin-top: 12px; translate: 0 0; }
 }
+/* Masked type reveal and a gently unfolding sequence of photographic panels. */
+.hub-slot--about { --entry-angle: -4deg; }
+.hub-slot--projects { --entry-angle: -2deg; --entry-delay: .10s; }
+.hub-slot--resume { --entry-angle: 2deg; --entry-delay: .20s; }
+.hub-slot--contact { --entry-angle: 4deg; --entry-delay: .30s; }
 @media (prefers-reduced-motion: no-preference) {
-    .hub-background { animation: hub-background-in .8s both; }
-    .hub-slot { animation: hub-card-in .65s cubic-bezier(.2,.65,.3,1) both; }
-    .hub-slot--projects { animation-delay: .06s; }
-    .hub-slot--resume { animation-delay: .12s; }
-    .hub-slot--contact { animation-delay: .18s; }
+    .hub-caption__line > span { animation: hub-type-in .9s cubic-bezier(.16,1,.3,1) both; }
+    .hub-caption__line + .hub-caption__line > span { animation-delay: .14s; }
+    .hub-slot { transform-origin: 50% 100%; animation: hub-card-in 1s cubic-bezier(.16,1,.3,1) var(--entry-delay, 0s) both; }
+    .hub-slot.is-pending { animation: none; opacity: 0; }
+    .hub-card:active { scale: 1.015; }
 }
-@keyframes hub-card-in { from { opacity: 0; translate: 0 12px; scale: .985; } to { opacity: 1; translate: 0 0; scale: 1; } }
-@keyframes hub-background-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes hub-card-in {
+    from { opacity: 0; translate: 0 65px; rotate: var(--entry-angle); scale: .93; }
+    to { opacity: 1; translate: 0 0; rotate: 0deg; scale: 1; }
+}
+@keyframes hub-type-in { from { transform: translateY(115%); } to { transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) {
     .portfolio-hub *, .portfolio-hub *::before, .portfolio-hub *::after { animation: none !important; transition: none !important; }
-    .hub-card { transform: none !important; }
-}
-
-/* Two speech bubbles frame the portrait, as in the visual reference. */
-.hub-slot--about { margin-top: 24px; }
-.hub-bubble {
-    position: absolute; z-index: 4; display: flex; align-items: center; gap: 7px;
-    margin: 0; padding: 10px 13px; border-radius: 13px;
-    font-size: 11px; line-height: 1.4; font-weight: 500;
-    max-width: calc(100% - 12px); box-shadow: var(--hub-shadow);
-    pointer-events: none;
-}
-.hub-bubble--greeting { right: 0; bottom: calc(100% + 10px); background: var(--hub-ink); color: var(--hub-card); }
-.hub-bubble--greeting::after {
-    content: ''; position: absolute; right: 4px; bottom: -5px;
-    border-top: 9px solid var(--hub-ink); border-left: 9px solid transparent;
-}
-.hub-bubble--location { left: 12px; bottom: -15px; background: var(--hub-card); color: var(--hub-ink); border: 1px solid var(--hub-line); }
-.hub-bubble svg { flex-shrink: 0; }
-@media (min-width: 1100px) {
-    .hub-slot--about { margin-top: 0; }
-    .hub-bubble--location { left: -30px; }
+    .hub-card, .hub-card__media img { transform: none !important; }
+    .hub-card:is(:hover, :focus) { scale: 1; }
+    .hub-card:is(:hover, :focus) .hub-arrow { transform: none; }
+    .hub-card::before { display: none; }
+    .hub-card__copy p { translate: none; }
+    .hub-slot.is-pending { opacity: 1; }
 }
