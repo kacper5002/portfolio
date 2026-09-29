@@ -5,8 +5,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function kacper_portfolio_register_home_hub() {
-	wp_register_script( 'kacper-home-hub-editor', get_theme_file_uri( '/assets/js/home-hub-editor.js' ), array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n' ), filemtime( __DIR__ . '/../assets/js/home-hub-editor.js' ), true );
+	wp_register_script( 'kacper-home-hub-editor', get_theme_file_uri( '/assets/js/home-hub-editor.js' ), array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-server-side-render' ), filemtime( __DIR__ . '/../assets/js/home-hub-editor.js' ), true );
 	$attributes = array( 'portraitId' => array( 'type' => 'integer', 'default' => 0 ) );
+	foreach ( array( 'projectsImageId', 'resumeImageId', 'contactImageId' ) as $key ) {
+		$attributes[ $key ] = array( 'type' => 'integer', 'default' => 0 );
+	}
 	foreach ( array( 'greetingText', 'aboutText', 'projectsTitle', 'projectsText', 'resumeText', 'contactText' ) as $key ) {
 		$attributes[ $key ] = array( 'type' => 'string', 'default' => '' );
 	}
@@ -16,6 +19,7 @@ function kacper_portfolio_register_home_hub() {
 		'category' => 'design',
 		'attributes' => $attributes,
 		'editor_script' => 'kacper-home-hub-editor',
+		'uses_context' => array( 'postId', 'postType' ),
 		'render_callback' => 'kacper_portfolio_render_home_hub',
 		'supports' => array( 'html' => false, 'multiple' => false ),
 	) );
@@ -32,8 +36,11 @@ function kacper_portfolio_hub_page( $slug, $lang ) {
 	return $id && 'publish' === get_post_status( $id ) ? get_post( $id ) : null;
 }
 
-function kacper_portfolio_render_home_hub( $attributes ) {
+function kacper_portfolio_render_home_hub( $attributes, $content = '', $block = null ) {
 	$lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'de';
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST && ! empty( $block->context['postId'] ) && function_exists( 'pll_get_post_language' ) ) {
+		$lang = pll_get_post_language( $block->context['postId'] ) ?: $lang;
+	}
 	$greetings = array(
 		'de' => 'Hey! Ich bin Kacper und das ist mein Portfolio.',
 		'en' => 'Hey! I’m Kacper and this is my portfolio.',
@@ -77,6 +84,8 @@ function kacper_portfolio_render_home_hub( $attributes ) {
 					<div class="hub-card__media" aria-hidden="true">
 					<?php if ( 'about' === $key && ! empty( $attributes['portraitId'] ) ) : ?>
 						<?php echo wp_get_attachment_image( absint( $attributes['portraitId'] ), 'large', false, array( 'class' => 'hub-portrait', 'alt' => '', 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => '(min-width: 1100px) 360px, (min-width: 600px) 45vw, 90vw' ) ); ?>
+					<?php elseif ( ! empty( $attributes[ $key . 'ImageId' ] ) ) : ?>
+						<?php echo wp_get_attachment_image( absint( $attributes[ $key . 'ImageId' ] ), 'large', false, array( 'alt' => '' ) ); ?>
 					<?php elseif ( 'projects' === $key && $project && has_post_thumbnail( $project ) ) : ?>
 							<?php echo get_the_post_thumbnail( $project, 'large', array( 'alt' => '', 'class' => 'hub-project-image' ) ); ?>
 					<?php elseif ( 'about' !== $key ) : ?>

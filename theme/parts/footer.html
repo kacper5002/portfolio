@@ -1,7 +1,20 @@
-<!-- wp:group {"tagName":"footer","layout":{"type":"constrained"}} -->
-<footer class="wp-block-group">
-    <!-- wp:paragraph -->
-    <p>© Kacper Koszarski</p>
-    <!-- /wp:paragraph -->
+<!-- wp:group {"tagName":"footer","className":"portfolio-footer","layout":{"type":"constrained"}} -->
+<footer class="wp-block-group portfolio-footer">
+    <!-- wp:group {"className":"portfolio-footer__row","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+    <div class="wp-block-group portfolio-footer__row">
+        <!-- wp:paragraph -->
+        <p>© Kacper Koszarski</p>
+        <!-- /wp:paragraph -->
+
+        <!-- wp:kacper-portfolio/legal-links /-->
+
+        <!-- wp:social-links {"className":"is-style-logos-only portfolio-footer__social","layout":{"type":"flex","flexWrap":"nowrap"}} -->
+        <ul class="wp-block-social-links is-style-logos-only portfolio-footer__social">
+            <!-- wp:social-link {"service":"linkedin","label":"LinkedIn"} /-->
+            <!-- wp:social-link {"url":"https://github.com/kacper5002/","service":"github","label":"GitHub"} /-->
+        </ul>
+        <!-- /wp:social-links -->
+    </div>
+    <!-- /wp:group -->
 </footer>
 <!-- /wp:group -->

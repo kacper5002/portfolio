@@ -1,33 +1,52 @@
-/* Native block controls; translations belong to each homepage's content. */
+/* Native Gutenberg controls; content belongs to each translated homepage. */
 (() => {
     const el = wp.element.createElement;
     const { useBlockProps, MediaUpload, MediaUploadCheck } = wp.blockEditor;
-    const { TextControl, Button } = wp.components;
-    const { __ } = wp.i18n;
+    const { TextControl, Button, Disabled } = wp.components;
     const fields = {
-        greetingText: __('Introduction above cards (empty = language default)', 'kacper-portfolio'),
-        aboutText: __('About: short description', 'kacper-portfolio'),
-        projectsTitle: __('Projects: card title', 'kacper-portfolio'),
-        projectsText: __('Projects: short description', 'kacper-portfolio'),
-        resumeText: __('Resume: short description', 'kacper-portfolio'),
-        contactText: __('Contact: short description', 'kacper-portfolio'),
+        greetingText: 'Begrüßung (leer = Standardtext der Sprache)',
+        aboutText: 'Über mich: Kurzbeschreibung',
+        projectsTitle: 'Projekte: Kartentitel',
+        projectsText: 'Projekte: Kurzbeschreibung',
+        resumeText: 'Lebenslauf: Kurzbeschreibung',
+        contactText: 'Kontakt: Kurzbeschreibung',
     };
-    const attributes = { portraitId: { type: 'integer', default: 0 } };
+    const images = {
+        portraitId: 'Über mich: Foto', projectsImageId: 'Projekte: Bild',
+        resumeImageId: 'Lebenslauf: Bild', contactImageId: 'Kontakt: Bild',
+    };
+    const attributes = {};
+    Object.keys(images).forEach(key => attributes[key] = { type: 'integer', default: 0 });
     Object.keys(fields).forEach(key => attributes[key] = { type: 'string', default: '' });
     wp.blocks.registerBlockType('kacper-portfolio/home-hub', {
-        apiVersion: 3, title: 'Portfolio hub', icon: 'layout', category: 'design', attributes,
-        supports: { html: false, multiple: false },
-        edit({ attributes, setAttributes }) {
-            return el('div', useBlockProps(),
-                el('h2', null, 'Portfolio hub'),
-                el('p', null, __('Four cards. Page titles and links follow WordPress and Polylang. AI category illustrations are used by default; the project card uses a featured image when available.', 'kacper-portfolio')),
-                ...Object.entries(fields).map(([key, label]) => el(TextControl, { key, label, value: attributes[key], onChange: value => setAttributes({ [key]: value }) })),
-                el(MediaUploadCheck, null, el(MediaUpload, {
-                    allowedTypes: ['image'], value: attributes.portraitId,
-                    onSelect: media => setAttributes({ portraitId: media.id }),
-                    render: ({ open }) => el(Button, { variant: 'secondary', onClick: open }, attributes.portraitId ? __('Change portrait', 'kacper-portfolio') : __('Choose portrait', 'kacper-portfolio')),
+        apiVersion: 3, title: 'Portfolio Startseite', icon: 'layout', category: 'design', attributes,
+        supports: { html: false, multiple: false }, usesContext: ['postId', 'postType'],
+        edit({ attributes, setAttributes, context }) {
+            const [showPreview, setShowPreview] = wp.element.useState(true);
+            return el('div', useBlockProps({ className: 'portfolio-hub-editor' }),
+                el('h2', null, 'Portfolio Startseite'),
+                el('p', null, 'Hier Begrüßung, Beschreibungen und Bilder bearbeiten. Die Titel von Über mich, Lebenslauf und Kontakt folgen den verknüpften Seiten. Jede Sprache hat eigene Inhalte.'),
+                ...Object.entries(fields).map(([key, label]) => el(TextControl, {
+                    key, label, value: attributes[key], onChange: value => setAttributes({ [key]: value }),
                 })),
-                attributes.portraitId ? el('p', null, __('Portrait attachment ID:', 'kacper-portfolio') + ' ' + attributes.portraitId) : null,
+                el('div', { className: 'portfolio-hub-editor__images' },
+                    ...Object.entries(images).map(([key, label]) => el('div', { key },
+                        el(MediaUploadCheck, null, el(MediaUpload, {
+                            allowedTypes: ['image'], value: attributes[key],
+                            onSelect: media => setAttributes({ [key]: media.id }),
+                            render: ({ open }) => el(Button, { variant: 'secondary', onClick: open }, label),
+                        })),
+                        key !== 'portraitId' && attributes[key] ? el(Button, {
+                            variant: 'tertiary', onClick: () => setAttributes({ [key]: 0 }),
+                        }, 'Standardbild verwenden') : null
+                    ))
+                ),
+                el(Button, { variant: 'secondary', onClick: () => setShowPreview(!showPreview), 'aria-expanded': showPreview },
+                    showPreview ? 'Vorschau ausblenden' : 'Vorschau anzeigen'),
+                showPreview ? el(Disabled, null, el(wp.serverSideRender, {
+                    block: 'kacper-portfolio/home-hub', attributes,
+                    urlQueryArgs: context.postId ? { post_id: context.postId } : {},
+                })) : null
             );
         },
         save: () => null,

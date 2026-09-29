@@ -242,6 +242,13 @@ add_action( 'save_post_project', 'kacper_portfolio_core_save_project_details' );
  * Register a server-rendered block for project templates.
  */
 function kacper_portfolio_core_register_project_details_block() {
+	wp_register_script(
+		'kacper-portfolio-core-blocks-editor',
+		plugins_url( 'blocks/editor.js', __FILE__ ),
+		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-server-side-render' ),
+		filemtime( __DIR__ . '/blocks/editor.js' ),
+		true
+	);
 	register_block_type(
 		'kacper-portfolio/project-details',
 		array(
@@ -249,6 +256,7 @@ function kacper_portfolio_core_register_project_details_block() {
 			'title'           => __( 'Projektdetails', 'kacper-portfolio-core' ),
 			'category'        => 'widgets',
 			'uses_context'    => array( 'postId', 'postType' ),
+			'editor_script'   => 'kacper-portfolio-core-blocks-editor',
 			'render_callback' => 'kacper_portfolio_core_render_project_details',
 			'supports'        => array( 'html' => false ),
 		)
@@ -312,6 +320,7 @@ function kacper_portfolio_core_register_site_navigation() {
 			'api_version'     => 3,
 			'title'           => __( 'Portfolio Navigation', 'kacper-portfolio-core' ),
 			'category'        => 'widgets',
+			'editor_script'   => 'kacper-portfolio-core-blocks-editor',
 			'render_callback' => 'kacper_portfolio_core_render_site_navigation',
 			'supports'        => array( 'html' => false ),
 		)

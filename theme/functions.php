@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once __DIR__ . '/inc/home-hub.php';
+require_once __DIR__ . '/inc/footer.php';
 
 function kacper_portfolio_enqueue_assets() {
 	wp_enqueue_style( 'kacper-portfolio', get_stylesheet_uri(), array(), filemtime( get_theme_file_path( '/style.css' ) ) );
@@ -46,7 +47,6 @@ add_action( 'wp_head', 'kacper_portfolio_initialize_color_theme', 0 );
 
 function kacper_portfolio_editor_styles() {
 	add_theme_support( 'editor-styles' );
-	add_editor_style( 'style.css' );
-	add_editor_style( 'assets/css/home.css' );
+	add_editor_style( 'assets/css/editor.css' );
 }
 add_action( 'after_setup_theme', 'kacper_portfolio_editor_styles' );

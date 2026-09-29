@@ -125,3 +125,15 @@ html[data-theme="dark"] .theme-toggle__sun { opacity: 0; transform: rotate(60deg
     background-color: currentColor;
     mask: url('assets/images/kk-logo.svg') center / contain no-repeat;
 }
+
+/* Native Gutenberg social links: inherit the palette and stay keyboard accessible. */
+.portfolio-footer { padding: 16px 24px; color: var(--color-text-secondary); }
+.portfolio-footer__row { max-width: 1440px; margin-inline: auto; gap: 12px; }
+.portfolio-footer p { margin: 0; font-size: 12px; }
+.portfolio-footer__legal { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; }
+.portfolio-footer__legal a { color: inherit; text-underline-offset: 3px; }
+.portfolio-footer .portfolio-footer__social { margin: 0; gap: 6px; }
+.portfolio-footer .portfolio-footer__social .wp-social-link { color: var(--color-text); }
+.portfolio-footer .wp-social-link a { display: grid; place-items: center; min-width: 32px; min-height: 32px; box-sizing: border-box; }
+.portfolio-footer .wp-social-link svg { width: 20px; height: 20px; }
+.portfolio-footer a:focus-visible { outline: 2px solid var(--color-text); outline-offset: 3px; }
