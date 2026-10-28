@@ -35,78 +35,7 @@ body.home .home-page { max-width: none; margin: 0; }
 .home-page > .wp-block-post-content,
 .home-page .portfolio-hub { max-width: none !important; margin: 0 auto !important; }
 .portfolio-hub *, .portfolio-hub *::before, .portfolio-hub *::after { box-sizing: border-box; }
-/* Brand + expanding menu in the centre; page controls outside the bar. */
-body.home header.wp-block-group { position: relative; z-index: 5; padding: 76px 18px 0; }
-body.home .portfolio-header__bar {
-    box-sizing: border-box; width: 100%; max-width: 720px; padding: 10px 16px; gap: 20px;
-    background: var(--hub-card); border: 1px solid var(--hub-line); border-radius: 16px;
-    box-shadow: var(--hub-shadow); flex-wrap: nowrap;
-    transition: max-width .4s cubic-bezier(.22,.65,.3,1);
-}
-body.home .portfolio-header__bar.hub-header-enhanced { max-width: 380px; }
-body.home .portfolio-header__bar.is-menu-open { max-width: 720px; }
-body.home .portfolio-brand { gap: 3px; align-items: center; }
-body.home header .wp-block-site-title { margin: 0; font: 600 20px/1.2 Inter, 'Helvetica Neue', Arial, sans-serif; letter-spacing: -.025em; }
-body.home header .wp-block-site-title a { text-decoration: none; color: var(--hub-ink); }
-body.home .header-actions { gap: 0; flex-wrap: nowrap; }
-body.home .portfolio-navigation { gap: 0; flex-wrap: nowrap; }
-body.home .portfolio-navigation__menu a { display: inline-block; font-size: 12px; text-decoration: none; color: var(--hub-ink); padding: 10px 0; white-space: nowrap; }
-body.home .portfolio-navigation__menu a:hover { text-decoration: underline; text-underline-offset: 4px; }
-body.home .portfolio-navigation__menu { gap: 15px; }
-body.home .portfolio-logo { width: 26px; height: 30px; color: var(--hub-ink); }
-body.home .portfolio-navigation__languages { background: var(--hub-card); border-color: var(--hub-line); }
-.hub-menu-button { flex-shrink: 0; border: 0; border-radius: 9px; padding: 11px 14px; font-family: inherit; font-size: 12px; font-weight: 500; line-height: 1.2; background: var(--hub-ink); color: var(--hub-card); cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
-.hub-menu-button span { display: inline-block; margin-left: 12px; transition: transform .3s ease; }
-.hub-menu-button[aria-expanded="true"] span { transform: rotate(45deg); }
-body.home .hub-menu-enhanced .portfolio-navigation__menu {
-    box-sizing: border-box; flex-wrap: nowrap; max-width: 0; min-width: 0;
-    overflow: hidden; opacity: 0; visibility: hidden; margin-inline: 0;
-    transition: max-width .4s cubic-bezier(.22,.65,.3,1), margin .4s ease, opacity .2s ease, visibility .4s;
-}
-body.home .is-menu-open .portfolio-navigation__menu {
-    max-width: 440px; margin-inline: 20px 0; opacity: 1; visibility: visible;
-}
-.hub-menu-button:focus-visible, .hub-card:focus-visible { outline: 2px solid var(--hub-ink); outline-offset: 5px; }
-@media (hover: hover) and (pointer: fine) {
-    .hub-menu-button:hover { transform: scale(1.045); box-shadow: 0 4px 10px rgb(0 0 0 / .12); }
-}
-.hub-menu-button:active { transform: scale(.97); }
-/* Reserve a separate controls row until both areas fit side by side. */
-@media (min-width: 1200px) {
-    body.home header.wp-block-group { padding-top: 20px; }
-    body.home .header-tools, body.home .portfolio-navigation__languages { top: 31px; }
-}
-@media (max-width: 1099px) {
-    body.home .portfolio-header__bar.is-menu-open { max-width: 540px; }
-    body.home .portfolio-header__bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; row-gap: 0; }
-    body.home .header-actions, body.home .portfolio-navigation { display: contents; }
-    body.home .portfolio-brand { grid-column: 1; grid-row: 1; }
-    body.home .hub-menu-button { grid-column: 2; grid-row: 1; }
-    body.home .portfolio-navigation__menu {
-        grid-column: 1 / -1; grid-row: 2; justify-content: center;
-        flex-wrap: wrap !important; gap: 2px 18px;
-    }
-    body.home .hub-menu-enhanced .portfolio-navigation__menu {
-        max-width: none; max-height: 0; margin: 0; transition: max-height .35s ease, margin .35s ease, opacity .2s ease, visibility .35s;
-    }
-    body.home .is-menu-open .portfolio-navigation__menu { max-height: 150px; margin-top: 10px; }
-}
-@media (max-width: 600px) {
-    body.home .portfolio-header__bar { padding: 12px; column-gap: 12px; }
-    body.home header .wp-block-site-title { font-size: 18px; }
-    body.home .portfolio-logo { width: 24px; height: 28px; }
-    body.home .portfolio-navigation__menu { justify-content: flex-start; }
-}
-@media (max-width: 360px) {
-    body.home .portfolio-header__bar { padding: 10px; column-gap: 8px; }
-    body.home header .wp-block-site-title { font-size: 17px; }
-    .hub-menu-button { padding-inline: 10px; }
-}
-@media (prefers-reduced-motion: reduce) {
-    body.home .portfolio-header__bar, .hub-menu-button, .hub-menu-button span,
-    body.home .hub-menu-enhanced .portfolio-navigation__menu { transition: none; }
-    .hub-menu-button:hover, .hub-menu-button:active { transform: none; }
-}
+.hub-card:focus-visible { outline: 2px solid var(--hub-ink); outline-offset: 5px; }
 /* Three photographic panels; reading order stays the same on every screen. */
 .portfolio-hub { box-sizing: border-box; position: relative; width: 100%; padding: 65px 22px 40px; isolation: isolate; }
 .hub-caption { margin: 0 auto 72px; max-width: 100%; color: var(--hub-ink); font-size: clamp(30px, 4vw, 58px); font-weight: 500; line-height: 1.2; letter-spacing: -.045em; text-align: center; }
@@ -128,7 +57,7 @@ body.home .is-menu-open .portfolio-navigation__menu {
 .hub-card__media img {
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     transform: translate(var(--image-x, 0px), var(--image-y, 0px)) scale(1.04);
-    transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .65s ease;
+    transition: transform .7s cubic-bezier(.2,.7,.2,1);
 }
 .hub-card__media .hub-portrait { object-position: 50% 45%; }
 .hub-card::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(180deg, rgb(0 0 0 / .04) 30%, rgb(0 0 0 / .25) 62%, rgb(0 0 0 / .85) 100%); }
@@ -177,14 +106,13 @@ body.home footer p { margin: 0; }
     .hub-card__copy { padding-inline: 20px; }
     body.home footer.wp-block-group { padding-block: 8px 14px; }
 }
-/* The photo stays visible; color, depth, arrow and description respond together. */
+/* Photos stay in color; depth, arrow and description respond together. */
 @media (hover: hover) and (pointer: fine) {
-    .hub-card__media img { filter: grayscale(1); }
     .hub-card::before { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none; opacity: 0; background: radial-gradient(ellipse at var(--light-x, 50%) var(--light-y, 30%), rgb(255 255 255 / .24), transparent 65%); transition: opacity .5s ease; }
     .hub-card:hover::before { opacity: 1; }
     .hub-slot:has(.hub-card:is(:hover, :focus)) { z-index: 2; }
     .hub-card:is(:hover, :focus) { scale: 1.035; box-shadow: 0 30px 55px -20px rgb(0 0 0 / .35); }
-    .hub-card:is(:hover, :focus) .hub-card__media img { filter: grayscale(0); transform: translate(var(--image-x, 0px), var(--image-y, 0px)) scale(1.11); }
+    .hub-card:is(:hover, :focus) .hub-card__media img { transform: translate(var(--image-x, 0px), var(--image-y, 0px)) scale(1.11); }
     .hub-card:is(:hover, :focus) .hub-arrow { transform: translate3d(2px,-2px,28px) rotate(45deg); background: var(--hub-photo-text); color: var(--hub-photo-ink); }
     .hub-card__copy { position: absolute; left: 0; right: 0; bottom: 28px; padding: 0 26px; }
     .hub-card__copy p { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; translate: 0 8px; transition: max-height .45s cubic-bezier(.2,.7,.2,1), opacity .4s ease, margin .45s ease, translate .45s ease; }
