@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once __DIR__ . '/blocks/selected-projects.php';
+require_once __DIR__ . '/contact-form.php';
 
 /**
  * Register portfolio projects with the native WordPress block editor.

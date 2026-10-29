@@ -15,9 +15,27 @@ function kacper_portfolio_is_about_story() {
 	return is_page_template( 'about' ) && str_contains( get_post_field( 'post_content', get_queried_object_id() ), 'about-story' );
 }
 
+function kacper_portfolio_is_contact_story() {
+	return is_page_template( 'contact' ) && str_contains( get_post_field( 'post_content', get_queried_object_id() ), 'contact-story' );
+}
+
+// The editorial hero supplies its own H1; other About pages retain the template title.
+add_filter( 'render_block_core/group', function ( $content, $block ) {
+	if ( ( $block['attrs']['className'] ?? '' ) === 'about-page__intro' && kacper_portfolio_is_about_story() ) {
+		return '';
+	}
+	if ( ( $block['attrs']['className'] ?? '' ) === 'contact-page__intro' && kacper_portfolio_is_contact_story() ) {
+		return '';
+	}
+	return $content;
+}, 10, 2 );
+
 add_filter( 'body_class', function ( $classes ) {
 	if ( kacper_portfolio_is_about_story() ) {
 		$classes[] = 'portfolio-about';
+	}
+	if ( kacper_portfolio_is_contact_story() ) {
+		$classes[] = 'portfolio-contact';
 	}
 	return $classes;
 } );
@@ -25,13 +43,17 @@ add_filter( 'body_class', function ( $classes ) {
 function kacper_portfolio_enqueue_assets() {
 	wp_enqueue_style( 'kacper-portfolio', get_stylesheet_uri(), array(), filemtime( get_theme_file_path( '/style.css' ) ) );
 	wp_enqueue_script( 'kacper-portfolio-theme-toggle', get_theme_file_uri( '/assets/js/theme-toggle.js' ), array(), filemtime( get_theme_file_path( '/assets/js/theme-toggle.js' ) ), true );
-	if ( is_front_page() || kacper_portfolio_is_about_story() ) {
+	if ( is_front_page() || kacper_portfolio_is_about_story() || kacper_portfolio_is_contact_story() ) {
 		wp_enqueue_style( 'kacper-portfolio-header', get_theme_file_uri( '/assets/css/header.css' ), array( 'kacper-portfolio' ), filemtime( get_theme_file_path( '/assets/css/header.css' ) ) );
 		wp_enqueue_script( 'kacper-portfolio-header', get_theme_file_uri( '/assets/js/header.js' ), array(), filemtime( get_theme_file_path( '/assets/js/header.js' ) ), true );
 	}
 	if ( kacper_portfolio_is_about_story() ) {
 		wp_enqueue_style( 'kacper-portfolio-about', get_theme_file_uri( '/assets/css/about.css' ), array( 'kacper-portfolio' ), filemtime( get_theme_file_path( '/assets/css/about.css' ) ) );
 		wp_enqueue_script( 'kacper-portfolio-about', get_theme_file_uri( '/assets/js/about.js' ), array(), filemtime( get_theme_file_path( '/assets/js/about.js' ) ), true );
+		wp_enqueue_script( 'kacper-portfolio-about-skills', get_theme_file_uri( '/assets/js/about-skills.js' ), array(), filemtime( get_theme_file_path( '/assets/js/about-skills.js' ) ), true );
+	}
+	if ( kacper_portfolio_is_contact_story() ) {
+		wp_enqueue_style( 'kacper-portfolio-contact', get_theme_file_uri( '/assets/css/contact.css' ), array( 'kacper-portfolio' ), filemtime( get_theme_file_path( '/assets/css/contact.css' ) ) );
 	}
 	// Cross-document navigation only; these assets do not change subpage layouts.
 	if ( is_front_page() || is_page_template( array( 'about', 'resume', 'contact' ) ) || is_post_type_archive( 'project' ) ) {
@@ -70,5 +92,6 @@ function kacper_portfolio_editor_styles() {
 	add_theme_support( 'editor-styles' );
 	add_editor_style( 'assets/css/editor.css' );
 	add_editor_style( 'assets/css/about.css' );
+	add_editor_style( 'assets/css/contact.css' );
 }
 add_action( 'after_setup_theme', 'kacper_portfolio_editor_styles' );

@@ -10,24 +10,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$contact_page = get_page_by_path( 'kontakt' );
+$contact_url = $contact_page ? get_permalink( $contact_page ) : home_url( '/kontakt/' );
+
 ?>
 <!-- wp:group {"className":"about-story"} -->
 <div class="wp-block-group about-story">
 <!-- wp:group {"tagName":"section","className":"about-hero"} -->
 <section class="wp-block-group about-hero">
-<!-- wp:group {"className":"about-hero__title"} -->
-<div class="wp-block-group about-hero__title">
-<!-- wp:paragraph {"className":"about-display"} -->
-<p class="about-display"><span>Ich bin Kacper.</span><span>Ich studiere Medieninformatik</span><span>in Leipzig.</span></p>
+<!-- wp:image {"id":24,"sizeSlug":"full","linkDestination":"none","className":"about-portrait"} -->
+<figure class="wp-block-image size-full about-portrait"><img src="<?php echo esc_url( wp_get_attachment_image_url( 24, 'full' ) ); ?>" alt="Kacper Koszarski" class="wp-image-24" /></figure>
+<!-- /wp:image -->
+<!-- wp:group {"className":"about-hero__body"} -->
+<div class="wp-block-group about-hero__body">
+<!-- wp:heading {"level":1,"className":"about-hero__greeting"} -->
+<h1 class="wp-block-heading about-hero__greeting">Hi, ich bin <strong>Kacper</strong>.</h1>
+<!-- /wp:heading -->
+<!-- wp:group {"className":"about-hero__bio"} -->
+<div class="wp-block-group about-hero__bio">
+<!-- wp:paragraph -->
+<p>Ich entwickle gerne digitale Anwendungen, bei denen Design, Funktionalität und Technik zusammenkommen. Mir macht es Spaß, eigene Ideen umzusetzen, Herausforderungen zu lösen und am Ende zu sehen, wie aus einer ersten Überlegung etwas Funktionierendes entsteht.</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>Aktuell studiere ich <strong>Medieninformatik</strong> an der HTWK Leipzig und befinde mich in der Abschlussphase meines Bachelors. Durch meine bisherigen Projekte konnte ich bereits praktische Erfahrungen sammeln und habe gelernt, Aufgaben eigenständig anzugehen, verschiedene Lösungswege auszuprobieren und mich in neue Themen einzuarbeiten.</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>Jetzt möchte ich meine Kenntnisse in einem professionellen Umfeld einbringen und gemeinsam mit anderen an spannenden Projekten arbeiten. Dabei freue ich mich besonders auf den Austausch mit erfahrenen Entwicklern, neue Herausforderungen und die Möglichkeit, Verantwortung zu übernehmen und mich weiterzuentwickeln.</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"about-hero__composition"} -->
-<div class="wp-block-group about-hero__composition">
-<!-- wp:group {"className":"about-hero__aside about-hero__aside--left"} -->
-<div class="wp-block-group about-hero__aside about-hero__aside--left">
-<!-- wp:group {"className":"about-hero-fact"} -->
-<div class="wp-block-group about-hero-fact">
+<!-- wp:group {"className":"about-hero__facts"} -->
+<div class="wp-block-group about-hero__facts">
+<!-- wp:group {"className":"about-hero-fact about-hero-fact--location"} -->
+<div class="wp-block-group about-hero-fact about-hero-fact--location">
 <!-- wp:paragraph {"className":"about-hero-fact__value"} -->
 <p class="about-hero-fact__value">Leipzig</p>
 <!-- /wp:paragraph -->
@@ -36,35 +51,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"about-hero-fact"} -->
-<div class="wp-block-group about-hero-fact">
-<!-- wp:paragraph {"className":"about-hero-fact__value"} -->
-<p class="about-hero-fact__value">HTWK Leipzig</p>
-<!-- /wp:paragraph -->
-<!-- wp:paragraph {"className":"about-hero-fact__caption"} -->
-<p class="about-hero-fact__caption">Meine Hochschule</p>
-<!-- /wp:paragraph -->
-</div>
-<!-- /wp:group -->
-<!-- wp:group {"className":"about-hero-fact"} -->
-<div class="wp-block-group about-hero-fact">
-<!-- wp:paragraph {"className":"about-hero-fact__value"} -->
-<p class="about-hero-fact__value">Medieninformatik</p>
-<!-- /wp:paragraph -->
-<!-- wp:paragraph {"className":"about-hero-fact__caption"} -->
-<p class="about-hero-fact__caption">Bachelor · Abschlussphase</p>
-<!-- /wp:paragraph -->
-</div>
-<!-- /wp:group -->
-</div>
-<!-- /wp:group -->
-<!-- wp:image {"sizeSlug":"full","linkDestination":"none","className":"about-portrait"} -->
-<figure class="wp-block-image size-full about-portrait"><img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/kacper-portrait.jpg' ) ); ?>" alt="Kacper Koszarski im weißen Hemd"/></figure>
-<!-- /wp:image -->
-<!-- wp:group {"className":"about-hero__aside about-hero__aside--right"} -->
-<div class="wp-block-group about-hero__aside about-hero__aside--right">
-<!-- wp:group {"className":"about-hero-fact"} -->
-<div class="wp-block-group about-hero-fact">
+<!-- wp:group {"className":"about-hero-fact about-hero-fact--age"} -->
+<div class="wp-block-group about-hero-fact about-hero-fact--age">
 <!-- wp:paragraph {"className":"about-hero-fact__value","metadata":{"bindings":{"content":{"source":"kacper-portfolio/age"}}}} -->
 <p class="about-hero-fact__value"><?php echo esc_html( kacper_portfolio_age_in_years() . ' Jahre' ); ?></p>
 <!-- /wp:paragraph -->
@@ -73,8 +61,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"about-hero-fact"} -->
-<div class="wp-block-group about-hero-fact">
+<!-- wp:group {"className":"about-hero-fact about-hero-fact--education"} -->
+<div class="wp-block-group about-hero-fact about-hero-fact--education">
+<!-- wp:paragraph {"className":"about-hero-fact__value"} -->
+<p class="about-hero-fact__value">HTWK Leipzig</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph {"className":"about-hero-fact__caption"} -->
+<p class="about-hero-fact__caption">Meine Hochschule</p>
+<!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"about-hero-fact about-hero-fact--origin"} -->
+<div class="wp-block-group about-hero-fact about-hero-fact--origin">
 <!-- wp:paragraph {"className":"about-hero-fact__value"} -->
 <p class="about-hero-fact__value">Polen</p>
 <!-- /wp:paragraph -->
@@ -83,13 +81,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"about-hero-fact"} -->
-<div class="wp-block-group about-hero-fact">
+<!-- wp:group {"className":"about-hero-fact about-hero-fact--studies"} -->
+<div class="wp-block-group about-hero-fact about-hero-fact--studies">
 <!-- wp:paragraph {"className":"about-hero-fact__value"} -->
-<p class="about-hero-fact__value">Łódź</p>
+<p class="about-hero-fact__value">Medieninformatik</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"className":"about-hero-fact__caption"} -->
-<p class="about-hero-fact__caption">Geboren in</p>
+<p class="about-hero-fact__caption">Bachelor · Abschlussphase</p>
+<!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"about-hero-fact about-hero-fact--languages"} -->
+<div class="wp-block-group about-hero-fact about-hero-fact--languages">
+<!-- wp:paragraph {"className":"about-hero-fact__value"} -->
+<p class="about-hero-fact__value">Polnisch, Deutsch, Englisch</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph {"className":"about-hero-fact__caption"} -->
+<p class="about-hero-fact__caption">In Wort und Schrift</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
@@ -126,7 +134,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <h3 class="wp-block-heading">Webentwicklung</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Webanwendungen entwickeln und eigene Ideen umsetzen – unter anderem mit Laravel und WordPress.</p>
+<p>Webanwendungen entwickeln und eigene Ideen umsetzen, zum Beispiel mit Laravel und WordPress.</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
@@ -165,143 +173,261 @@ if ( ! defined( 'ABSPATH' ) ) {
 </section>
 <!-- /wp:group -->
 
+<!-- wp:group {"tagName":"section","className":"about-section about-process","anchor":"wie-ich-arbeite"} -->
+<section id="wie-ich-arbeite" class="wp-block-group about-section about-process">
+<!-- wp:group {"className":"about-process__intro"} -->
+<div class="wp-block-group about-process__intro">
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Wie ich<br>arbeite.</h2>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Von der ersten Idee bis zur finalen Lösung arbeite ich strukturiert und fokussiert. Mein Ziel ist es, aus komplexen Anforderungen einfache, durchdachte Ergebnisse zu schaffen.</p>
+<!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"about-process__steps"} -->
+<div class="wp-block-group about-process__steps">
+<!-- wp:group {"className":"about-process__step"} -->
+<div class="wp-block-group about-process__step">
+<!-- wp:paragraph {"className":"about-process__number"} -->
+<p class="about-process__number">01</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Verstehen.</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Ich beginne damit, das Problem, die Anforderungen und den Kontext genau zu verstehen.</p>
+<!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"about-process__step"} -->
+<div class="wp-block-group about-process__step">
+<!-- wp:paragraph {"className":"about-process__number"} -->
+<p class="about-process__number">02</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Strukturieren.</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Danach ordne ich Informationen, plane die Lösung und definiere einen klaren Ablauf.</p>
+<!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"about-process__step"} -->
+<div class="wp-block-group about-process__step">
+<!-- wp:paragraph {"className":"about-process__number"} -->
+<p class="about-process__number">03</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Umsetzen.</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Ich entwickle eine funktionierende Lösung Schritt für Schritt und achte auf einen sauberen Aufbau.</p>
+<!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"about-process__step"} -->
+<div class="wp-block-group about-process__step">
+<!-- wp:paragraph {"className":"about-process__number"} -->
+<p class="about-process__number">04</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Verbessern.</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Zum Schluss teste ich, optimiere Details und verbessere die Anwendung gezielt weiter.</p>
+<!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
+</div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"about-process__goal"} -->
+<div class="wp-block-group about-process__goal">
+<!-- wp:paragraph {"className":"about-eyebrow"} -->
+<p class="about-eyebrow">Ziel</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph {"className":"about-process__result"} -->
+<p class="about-process__result">Eine klare, funktionierende und durchdachte Lösung.</p>
+<!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
+</section>
+<!-- /wp:group -->
 <!-- wp:group {"tagName":"section","className":"about-section about-skills","anchor":"skills"} -->
 <section id="skills" class="wp-block-group about-section about-skills">
 <!-- wp:group {"className":"about-section-heading"} -->
 <div class="wp-block-group about-section-heading">
 <!-- wp:heading -->
-<h2 class="wp-block-heading">Skills.</h2>
+<h2 class="wp-block-heading">Technologien,<br>mit denen ich arbeite.</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"className":"about-skills__intro"} -->
-<p class="about-skills__intro">Technologien sind für mich Werkzeuge. Entscheidend ist für mich, neue Lösungen zu verstehen, mich schnell einzuarbeiten und technische Anforderungen mit einer klaren Gestaltung zu verbinden.</p>
+<p class="about-skills__intro">Diese Technologien nutze ich in meinen Projekten, im Studium und in der praktischen Arbeit.</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"about-skills__grid"} -->
-<div class="wp-block-group about-skills__grid">
-<!-- wp:group {"className":"about-skill-group"} -->
-<div class="wp-block-group about-skill-group">
-<!-- wp:group {"className":"about-skill-group__heading"} -->
-<div class="wp-block-group about-skill-group__heading">
-<!-- wp:paragraph {"className":"about-skill-group__number"} -->
-<p class="about-skill-group__number">01</p>
-<!-- /wp:paragraph -->
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Web</h3>
+<!-- wp:group {"className":"about-skills__rows"} -->
+<div class="wp-block-group about-skills__rows">
+<!-- wp:group {"className":"about-skills__row"} -->
+<div class="wp-block-group about-skills__row">
+<!-- wp:heading {"level":3,"className":"about-skills__label"} -->
+<h3 class="wp-block-heading about-skills__label">Frontend &amp; Backend</h3>
 <!-- /wp:heading -->
-</div>
-<!-- /wp:group -->
-<!-- wp:list {"className":"about-skill-list"} -->
-<ul class="wp-block-list about-skill-list"><!-- wp:list-item -->
-<li>HTML</li>
+<!-- wp:group {"className":"about-skills__viewport"} -->
+<div class="wp-block-group about-skills__viewport">
+<!-- wp:group {"className":"about-skills__track"} -->
+<div class="wp-block-group about-skills__track">
+<!-- wp:list {"className":"about-skills__items"} -->
+<ul class="wp-block-list about-skills__items">
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/html.svg' ) ); ?>" alt="" width="36" height="36" />HTML</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>CSS</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/css.svg' ) ); ?>" alt="" width="36" height="36" />CSS</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>WordPress</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/javascript.svg' ) ); ?>" alt="" width="36" height="36" />JavaScript</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Laravel</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/wordpress.svg' ) ); ?>" alt="" width="36" height="36" />WordPress</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/laravel.svg' ) ); ?>" alt="" width="36" height="36" />Laravel</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/python.svg' ) ); ?>" alt="" width="36" height="36" />Python</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/java.svg' ) ); ?>" alt="" width="36" height="36" />Java</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/csharp.svg' ) ); ?>" alt="" width="36" height="36" />C#</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/sql.svg' ) ); ?>" alt="" width="36" height="36" />SQL</li>
 <!-- /wp:list-item -->
 </ul>
 <!-- /wp:list -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"about-skill-group"} -->
-<div class="wp-block-group about-skill-group">
-<!-- wp:group {"className":"about-skill-group__heading"} -->
-<div class="wp-block-group about-skill-group__heading">
-<!-- wp:paragraph {"className":"about-skill-group__number"} -->
-<p class="about-skill-group__number">02</p>
-<!-- /wp:paragraph -->
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Programmierung</h3>
-<!-- /wp:heading -->
 </div>
 <!-- /wp:group -->
-<!-- wp:list {"className":"about-skill-list"} -->
-<ul class="wp-block-list about-skill-list"><!-- wp:list-item -->
-<li>Java</li>
+</div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"about-skills__row"} -->
+<div class="wp-block-group about-skills__row">
+<!-- wp:heading {"level":3,"className":"about-skills__label"} -->
+<h3 class="wp-block-heading about-skills__label">Tools &amp; Systeme</h3>
+<!-- /wp:heading -->
+<!-- wp:group {"className":"about-skills__viewport"} -->
+<div class="wp-block-group about-skills__viewport">
+<!-- wp:group {"className":"about-skills__track"} -->
+<div class="wp-block-group about-skills__track">
+<!-- wp:list {"className":"about-skills__items"} -->
+<ul class="wp-block-list about-skills__items">
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/docker.svg' ) ); ?>" alt="" width="36" height="36" />Docker</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>C#</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/linux.svg' ) ); ?>" alt="" width="36" height="36" />Linux</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Python</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/zabbix.svg' ) ); ?>" alt="" width="36" height="36" />Zabbix</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>SQL</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/grafana.svg' ) ); ?>" alt="" width="36" height="36" />Grafana</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/postgresql.svg' ) ); ?>" alt="" width="36" height="36" />PostgreSQL</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img class="skill-icon--mono" src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/timescaledb.svg' ) ); ?>" alt="" width="36" height="36" />TimescaleDB</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/fastapi.svg' ) ); ?>" alt="" width="36" height="36" />FastAPI</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/nginx.svg' ) ); ?>" alt="" width="36" height="36" />Nginx</li>
 <!-- /wp:list-item -->
 </ul>
 <!-- /wp:list -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"about-skill-group"} -->
-<div class="wp-block-group about-skill-group">
-<!-- wp:group {"className":"about-skill-group__heading"} -->
-<div class="wp-block-group about-skill-group__heading">
-<!-- wp:paragraph {"className":"about-skill-group__number"} -->
-<p class="about-skill-group__number">03</p>
-<!-- /wp:paragraph -->
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Systeme &amp; Monitoring</h3>
-<!-- /wp:heading -->
 </div>
 <!-- /wp:group -->
-<!-- wp:list {"className":"about-skill-list"} -->
-<ul class="wp-block-list about-skill-list"><!-- wp:list-item -->
-<li>Docker</li>
+</div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"about-skills__row"} -->
+<div class="wp-block-group about-skills__row">
+<!-- wp:heading {"level":3,"className":"about-skills__label"} -->
+<h3 class="wp-block-heading about-skills__label">Design &amp; 3D</h3>
+<!-- /wp:heading -->
+<!-- wp:group {"className":"about-skills__viewport"} -->
+<div class="wp-block-group about-skills__viewport">
+<!-- wp:group {"className":"about-skills__track"} -->
+<div class="wp-block-group about-skills__track">
+<!-- wp:list {"className":"about-skills__items"} -->
+<ul class="wp-block-list about-skills__items">
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/figma.svg' ) ); ?>" alt="" width="36" height="36" />Figma</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Linux</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/canva.svg' ) ); ?>" alt="" width="36" height="36" />Canva</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Zabbix</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/blender.svg' ) ); ?>" alt="" width="36" height="36" />Blender</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Grafana</li>
+<li><img class="skill-icon--mono" src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/unity.svg' ) ); ?>" alt="" width="36" height="36" />Unity</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>PostgreSQL</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/photoshop.svg' ) ); ?>" alt="" width="36" height="36" />Photoshop</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>TimescaleDB</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/illustrator.svg' ) ); ?>" alt="" width="36" height="36" />Illustrator</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>FastAPI</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/premierepro.svg' ) ); ?>" alt="" width="36" height="36" />Premiere Pro</li>
 <!-- /wp:list-item -->
 </ul>
 <!-- /wp:list -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"about-skill-group"} -->
-<div class="wp-block-group about-skill-group">
-<!-- wp:group {"className":"about-skill-group__heading"} -->
-<div class="wp-block-group about-skill-group__heading">
-<!-- wp:paragraph {"className":"about-skill-group__number"} -->
-<p class="about-skill-group__number">04</p>
-<!-- /wp:paragraph -->
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Design &amp; Interactive</h3>
-<!-- /wp:heading -->
 </div>
 <!-- /wp:group -->
-<!-- wp:list {"className":"about-skill-list"} -->
-<ul class="wp-block-list about-skill-list"><!-- wp:list-item -->
-<li>Figma</li>
+</div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"about-skills__row"} -->
+<div class="wp-block-group about-skills__row">
+<!-- wp:heading {"level":3,"className":"about-skills__label"} -->
+<h3 class="wp-block-heading about-skills__label">Weitere Tools</h3>
+<!-- /wp:heading -->
+<!-- wp:group {"className":"about-skills__viewport"} -->
+<div class="wp-block-group about-skills__viewport">
+<!-- wp:group {"className":"about-skills__track"} -->
+<div class="wp-block-group about-skills__track">
+<!-- wp:list {"className":"about-skills__items"} -->
+<ul class="wp-block-list about-skills__items">
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/vscode.svg' ) ); ?>" alt="" width="36" height="36" />VS Code</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Canva</li>
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/git.svg' ) ); ?>" alt="" width="36" height="36" />Git</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Blender</li>
+<li><img class="skill-icon--mono" src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/github.svg' ) ); ?>" alt="" width="36" height="36" />GitHub</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Unity</li>
+<li><img class="skill-icon--mono" src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/notion.svg' ) ); ?>" alt="" width="36" height="36" />Notion</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/proxmox.svg' ) ); ?>" alt="" width="36" height="36" />Proxmox</li>
 <!-- /wp:list-item -->
 </ul>
 <!-- /wp:list -->
+</div>
+<!-- /wp:group -->
+</div>
+<!-- /wp:group -->
 </div>
 <!-- /wp:group -->
 </div>
@@ -464,130 +590,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 <!-- /wp:group -->
 </section>
 <!-- /wp:group -->
-<!-- wp:group {"tagName":"section","className":"about-section about-education"} -->
-<section class="wp-block-group about-section about-education">
-<!-- wp:group {"className":"about-section-heading"} -->
-<div class="wp-block-group about-section-heading">
-<!-- wp:paragraph {"className":"about-eyebrow"} -->
-<p class="about-eyebrow">05 / BILDUNGSWEG</p>
-<!-- /wp:paragraph -->
-<!-- wp:heading -->
-<h2 class="wp-block-heading">Mein Weg.</h2>
-<!-- /wp:heading -->
-</div>
-<!-- /wp:group -->
-<!-- wp:group {"className":"about-education__timeline"} -->
-<div class="wp-block-group about-education__timeline">
-<!-- wp:group {"className":"about-education-row"} -->
-<div class="wp-block-group about-education-row">
-<!-- wp:paragraph {"className":"about-year"} -->
-<p class="about-year">2022</p>
-<!-- /wp:paragraph -->
-<!-- wp:group {"className":"about-education-row__body"} -->
-<div class="wp-block-group about-education-row__body">
-<!-- wp:paragraph {"className":"about-eyebrow"} -->
-<p class="about-eyebrow">2022 – heute</p>
-<!-- /wp:paragraph -->
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Hochschule für Technik, Wirtschaft und Kultur Leipzig</h3>
-<!-- /wp:heading -->
-<!-- wp:paragraph -->
-<p>Medieninformatik (Bachelor)</p>
-<!-- /wp:paragraph -->
-</div>
-<!-- /wp:group -->
-</div>
-<!-- /wp:group -->
-<!-- wp:group {"className":"about-education-row"} -->
-<div class="wp-block-group about-education-row">
-<!-- wp:paragraph {"className":"about-year"} -->
-<p class="about-year">2017</p>
-<!-- /wp:paragraph -->
-<!-- wp:group {"className":"about-education-row__body"} -->
-<div class="wp-block-group about-education-row__body">
-<!-- wp:paragraph {"className":"about-eyebrow"} -->
-<p class="about-eyebrow">2017 – 2020</p>
-<!-- /wp:paragraph -->
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Berufliche Schulen des Unstrut-Hainich-Kreises „Johann August Röbling“</h3>
-<!-- /wp:heading -->
-<!-- wp:paragraph -->
-<p>Allgemeine Hochschulreife<br>Fachrichtung Wirtschaft</p>
-<!-- /wp:paragraph -->
-</div>
-<!-- /wp:group -->
-</div>
-<!-- /wp:group -->
-<!-- wp:group {"className":"about-education-row"} -->
-<div class="wp-block-group about-education-row">
-<!-- wp:paragraph {"className":"about-year"} -->
-<p class="about-year">2012</p>
-<!-- /wp:paragraph -->
-<!-- wp:group {"className":"about-education-row__body"} -->
-<div class="wp-block-group about-education-row__body">
-<!-- wp:paragraph {"className":"about-eyebrow"} -->
-<p class="about-eyebrow">2012 – 2017</p>
-<!-- /wp:paragraph -->
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Regelschule „Thomas Müntzer“</h3>
-<!-- /wp:heading -->
-<!-- wp:paragraph -->
-<p>Mühlhausen / Thüringen<br>Realschulabschluss</p>
-<!-- /wp:paragraph -->
-</div>
-<!-- /wp:group -->
-</div>
-<!-- /wp:group -->
-</div>
-<!-- /wp:group -->
-</section>
-<!-- /wp:group -->
-<!-- wp:group {"tagName":"section","className":"about-section about-languages"} -->
-<section class="wp-block-group about-section about-languages">
-<!-- wp:group {"className":"about-section-heading"} -->
-<div class="wp-block-group about-section-heading">
-<!-- wp:paragraph {"className":"about-eyebrow"} -->
-<p class="about-eyebrow">06 / IM AUSTAUSCH</p>
-<!-- /wp:paragraph -->
-<!-- wp:heading -->
-<h2 class="wp-block-heading">Sprachen.</h2>
-<!-- /wp:heading -->
-</div>
-<!-- /wp:group -->
-<!-- wp:list {"className":"about-language-list"} -->
-<ul class="wp-block-list about-language-list"><!-- wp:list-item -->
-<li>Deutsch</li>
-<!-- /wp:list-item -->
-<!-- wp:list-item -->
-<li>Polnisch</li>
-<!-- /wp:list-item -->
-<!-- wp:list-item -->
-<li>Englisch</li>
-<!-- /wp:list-item -->
-<!-- wp:list-item -->
-<li>Französisch</li>
-<!-- /wp:list-item -->
-</ul>
-<!-- /wp:list -->
-</section>
-<!-- /wp:group -->
 <!-- wp:group {"tagName":"section","className":"about-section about-personal"} -->
 <section class="wp-block-group about-section about-personal">
-<!-- wp:group {"className":"about-section-heading"} -->
-<div class="wp-block-group about-section-heading">
-<!-- wp:paragraph {"className":"about-eyebrow"} -->
-<p class="about-eyebrow">07 / DIE ANDERE SEITE</p>
-<!-- /wp:paragraph -->
+<!-- wp:group {"className":"about-personal__intro"} -->
+<div class="wp-block-group about-personal__intro">
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Abseits vom Code.</h2>
 <!-- /wp:heading -->
-</div>
-<!-- /wp:group -->
-<!-- wp:group {"className":"about-personal__body"} -->
-<div class="wp-block-group about-personal__body">
 <!-- wp:paragraph {"className":"about-personal__statement"} -->
 <p class="about-personal__statement">Technik. Kreativität.<br>Und alles dazwischen.</p>
 <!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
 <!-- wp:group {"className":"about-personal__copy"} -->
 <div class="wp-block-group about-personal__copy">
 <!-- wp:paragraph -->
@@ -598,30 +612,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-</div>
-<!-- /wp:group -->
 </section>
 <!-- /wp:group -->
-<!-- wp:group {"tagName":"section","className":"about-section about-cv"} -->
-<section class="wp-block-group about-section about-cv">
-<!-- wp:paragraph {"className":"about-eyebrow"} -->
-<p class="about-eyebrow">08 / ZUM MITNEHMEN</p>
-<!-- /wp:paragraph -->
+<!-- wp:group {"tagName":"section","className":"about-section about-contact"} -->
+<section class="wp-block-group about-section about-contact">
 <!-- wp:heading -->
-<h2 class="wp-block-heading">Mehr über meinen<br>bisherigen Weg?</h2>
+<h2 class="wp-block-heading">Lust auf Zusammenarbeit?</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Hier findest du bald meinen vollständigen Lebenslauf als PDF.</p>
+<p>Du hast eine Idee, ein spannendes Projekt oder möchtest dich austauschen? Ich freue mich auf deine Nachricht.</p>
 <!-- /wp:paragraph -->
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"className":"about-download"} -->
-<div class="wp-block-button about-download"><a class="wp-block-button__link wp-element-button">LEBENSLAUF HERUNTERLADEN <span>↘</span></a></div>
+<div class="wp-block-buttons"><!-- wp:button {"className":"about-contact__link"} -->
+<div class="wp-block-button about-contact__link"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( $contact_url ); ?>">Kontakt aufnehmen <span aria-hidden="true">↗</span></a></div>
 <!-- /wp:button -->
 </div>
 <!-- /wp:buttons -->
-<!-- wp:paragraph {"className":"about-caption"} -->
-<p class="about-caption">PDF folgt in Kürze.</p>
-<!-- /wp:paragraph -->
 </section>
 <!-- /wp:group -->
 </div>

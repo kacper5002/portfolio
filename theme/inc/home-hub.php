@@ -79,7 +79,6 @@ function kacper_portfolio_render_home_hub( $attributes, $content = '', $block = 
 			?>
 			<article class="hub-slot hub-slot--<?php echo esc_attr( $key ); ?>">
 				<a class="hub-card hub-card--<?php echo esc_attr( $key ); ?>" data-hub-card="<?php echo esc_attr( $key ); ?>" href="<?php echo esc_url( $url ); ?>" aria-labelledby="hub-title-<?php echo esc_attr( $key ); ?>">
-					<span class="hub-arrow" aria-hidden="true">↗</span>
 					<div class="hub-card__media" aria-hidden="true">
 					<?php if ( 'about' === $key && ! empty( $attributes['portraitId'] ) ) : ?>
 						<?php echo wp_get_attachment_image( absint( $attributes['portraitId'] ), 'large', false, array( 'class' => 'hub-portrait', 'alt' => '', 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => '(min-width: 1100px) 360px, (min-width: 600px) 45vw, 90vw' ) ); ?>

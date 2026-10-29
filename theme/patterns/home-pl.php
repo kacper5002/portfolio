@@ -6,4 +6,4 @@
  * Inserter: no
  */
 ?>
-<!-- wp:kacper-portfolio/home-hub {"aboutText": "Informatyka medialna. Web development. Jasne pomysły.", "projectsTitle": "Projekty", "projectsText": "Wybrane realizacje i projekty.", "resumeText": "Doświadczenie, edukacja i umiejętności.", "contactText": "Porozmawiajmy."} /-->
+<!-- wp:kacper-portfolio/home-hub {"aboutText": "Poznaj mnie, moje zainteresowania i sposób, w jaki pracuję.", "projectsTitle": "Projekty", "projectsText": "Projekty ze studiów i aplikacje, które tworzę samodzielnie.", "resumeText": "Doświadczenie, edukacja i umiejętności.", "contactText": "Szukasz kogoś do zespołu lub chcesz wymienić się pomysłami? Napisz do mnie."} /-->
