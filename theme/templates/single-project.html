@@ -1,14 +1,16 @@
 <!-- wp:template-part {"slug":"header","area":"header"} /-->
 
-<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
-<main class="wp-block-group">
+<!-- wp:group {"tagName":"main","className":"project-page","layout":{"type":"default"}} -->
+<main class="wp-block-group project-page">
+    <!-- wp:kacper-portfolio/project-back /-->
     <!-- wp:post-title {"level":1} /-->
-
-    <!-- wp:kacper-portfolio/project-details /-->
-
-    <!-- wp:post-featured-image /-->
-
-    <!-- wp:post-content /-->
+    <!-- wp:post-featured-image {"sizeSlug":"large","scale":"contain","className":"project-hero-image"} /-->
+    <!-- wp:group {"className":"project-body","layout":{"type":"default"}} -->
+    <div class="wp-block-group project-body">
+        <!-- wp:kacper-portfolio/project-details /-->
+        <!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+    </div>
+    <!-- /wp:group -->
 </main>
 <!-- /wp:group -->
 

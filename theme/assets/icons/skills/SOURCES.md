@@ -36,3 +36,6 @@ Static SVG assets served locally. No runtime package or external CDN.
 - [notion.svg](https://raw.githubusercontent.com/devicons/devicon/32fe1d3b3f36ad11f90ab94f7db59738139c2bf6/icons/notion/notion-original.svg)
 - [proxmox.svg](https://raw.githubusercontent.com/devicons/devicon/32fe1d3b3f36ad11f90ab94f7db59738139c2bf6/icons/proxmox/proxmox-original.svg)
 - [timescaledb.svg](https://raw.githubusercontent.com/simple-icons/simple-icons/90646e4bf7f3b89df6c37e65baf3e7bc759a517c/icons/timescale.svg)
+- [php.svg](https://raw.githubusercontent.com/devicons/devicon/32fe1d3b3f36ad11f90ab94f7db59738139c2bf6/icons/php/php-original.svg)
+- [livewire.svg](https://raw.githubusercontent.com/devicons/devicon/32fe1d3b3f36ad11f90ab94f7db59738139c2bf6/icons/livewire/livewire-original.svg)
+- [tailwindcss.svg](https://raw.githubusercontent.com/devicons/devicon/32fe1d3b3f36ad11f90ab94f7db59738139c2bf6/icons/tailwindcss/tailwindcss-original.svg)

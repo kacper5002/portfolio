@@ -1,19 +1,8 @@
-/* Native document navigation. No layout changes, routing, fetching or click delays. */
-@view-transition { navigation: auto; }
-::view-transition-group(hub-page) {
-    animation-duration: .45s;
-    animation-timing-function: cubic-bezier(.22,.65,.3,1);
-    overflow: clip;
-    border-radius: 22px;
+/* Animate only the incoming content. The header never participates in page snapshots. */
+@media (prefers-reduced-motion: no-preference) {
+    .wp-site-blocks > main { animation: portfolio-page-in .16s ease-out; }
 }
-::view-transition-old(hub-page), ::view-transition-new(hub-page) {
-    height: 100%;
-    object-fit: cover;
-    object-position: top left;
-    animation-duration: .35s;
-}
-::view-transition-group(root) { animation-duration: .25s; }
-@media (prefers-reduced-motion: reduce) {
-    @view-transition { navigation: none; }
-    ::view-transition-group(*) { animation: none !important; }
+@keyframes portfolio-page-in {
+    from { opacity: .85; }
+    to { opacity: 1; }
 }

@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once __DIR__ . '/inc/home-hub.php';
 require_once __DIR__ . '/inc/footer.php';
 require_once __DIR__ . '/inc/about-age.php';
+require_once __DIR__ . '/inc/about-image.php';
+require_once __DIR__ . '/inc/projects.php';
 
 // The editorial layout is enabled by its content, not a language-specific URL.
 function kacper_portfolio_is_about_story() {
@@ -43,10 +45,8 @@ add_filter( 'body_class', function ( $classes ) {
 function kacper_portfolio_enqueue_assets() {
 	wp_enqueue_style( 'kacper-portfolio', get_stylesheet_uri(), array(), filemtime( get_theme_file_path( '/style.css' ) ) );
 	wp_enqueue_script( 'kacper-portfolio-theme-toggle', get_theme_file_uri( '/assets/js/theme-toggle.js' ), array(), filemtime( get_theme_file_path( '/assets/js/theme-toggle.js' ) ), true );
-	if ( is_front_page() || kacper_portfolio_is_about_story() || kacper_portfolio_is_contact_story() ) {
-		wp_enqueue_style( 'kacper-portfolio-header', get_theme_file_uri( '/assets/css/header.css' ), array( 'kacper-portfolio' ), filemtime( get_theme_file_path( '/assets/css/header.css' ) ) );
-		wp_enqueue_script( 'kacper-portfolio-header', get_theme_file_uri( '/assets/js/header.js' ), array(), filemtime( get_theme_file_path( '/assets/js/header.js' ) ), true );
-	}
+	wp_enqueue_style( 'kacper-portfolio-header', get_theme_file_uri( '/assets/css/header.css' ), array( 'kacper-portfolio' ), filemtime( get_theme_file_path( '/assets/css/header.css' ) ) );
+	wp_enqueue_script( 'kacper-portfolio-header', get_theme_file_uri( '/assets/js/header.js' ), array(), filemtime( get_theme_file_path( '/assets/js/header.js' ) ), true );
 	if ( kacper_portfolio_is_about_story() ) {
 		wp_enqueue_style( 'kacper-portfolio-about', get_theme_file_uri( '/assets/css/about.css' ), array( 'kacper-portfolio' ), filemtime( get_theme_file_path( '/assets/css/about.css' ) ) );
 		wp_enqueue_script( 'kacper-portfolio-about', get_theme_file_uri( '/assets/js/about.js' ), array(), filemtime( get_theme_file_path( '/assets/js/about.js' ) ), true );
@@ -55,16 +55,11 @@ function kacper_portfolio_enqueue_assets() {
 	if ( kacper_portfolio_is_contact_story() ) {
 		wp_enqueue_style( 'kacper-portfolio-contact', get_theme_file_uri( '/assets/css/contact.css' ), array( 'kacper-portfolio' ), filemtime( get_theme_file_path( '/assets/css/contact.css' ) ) );
 	}
-	// Cross-document navigation only; these assets do not change subpage layouts.
-	if ( is_front_page() || is_page_template( array( 'about', 'resume', 'contact' ) ) || is_post_type_archive( 'project' ) ) {
-		wp_enqueue_style( 'kacper-portfolio-transitions', get_theme_file_uri( '/assets/css/page-transitions.css' ), array(), filemtime( get_theme_file_path( '/assets/css/page-transitions.css' ) ) );
-		wp_enqueue_script( 'kacper-portfolio-transitions', get_theme_file_uri( '/assets/js/page-transitions.js' ), array(), filemtime( get_theme_file_path( '/assets/js/page-transitions.js' ) ), false );
-		$home_urls = array( home_url( '/' ) );
-		if ( function_exists( 'pll_home_url' ) ) {
-			$home_urls = array_map( 'pll_home_url', array( 'de', 'en', 'pl' ) );
-		}
-		wp_localize_script( 'kacper-portfolio-transitions', 'portfolioHubNavigation', array( 'homeUrls' => $home_urls ) );
+	if ( is_post_type_archive( 'project' ) || is_singular( 'project' ) ) {
+		wp_enqueue_style( 'kacper-portfolio-projects', get_theme_file_uri( '/assets/css/projects.css' ), array( 'kacper-portfolio' ), filemtime( get_theme_file_path( '/assets/css/projects.css' ) ) );
 	}
+	// A brief native crossfade; no render-blocking navigation script or full-page morph.
+	wp_enqueue_style( 'kacper-portfolio-transitions', get_theme_file_uri( '/assets/css/page-transitions.css' ), array(), filemtime( get_theme_file_path( '/assets/css/page-transitions.css' ) ) );
 	if ( is_front_page() ) {
 		wp_enqueue_style( 'kacper-portfolio-home', get_theme_file_uri( '/assets/css/home.css' ), array( 'kacper-portfolio' ), filemtime( get_theme_file_path( '/assets/css/home.css' ) ) );
 		wp_enqueue_script( 'kacper-portfolio-home', get_theme_file_uri( '/assets/js/home.js' ), array(), filemtime( get_theme_file_path( '/assets/js/home.js' ) ), true );
@@ -76,6 +71,13 @@ function kacper_portfolio_initialize_color_theme() {
 	?>
 	<script id="portfolio-theme-init">
 	(function () {
+		// Applied before the header is parsed: never paint the expanded fallback with JS enabled.
+		document.documentElement.classList.add('portfolio-js');
+		window.addEventListener('error', function (event) {
+			if (event.target && event.target.id === 'kacper-portfolio-header-js') {
+				document.documentElement.classList.remove('portfolio-js');
+			}
+		}, true);
 		var theme;
 		try { theme = localStorage.getItem('portfolio-theme'); } catch (error) {}
 		if (theme !== 'light' && theme !== 'dark') {
@@ -93,5 +95,6 @@ function kacper_portfolio_editor_styles() {
 	add_editor_style( 'assets/css/editor.css' );
 	add_editor_style( 'assets/css/about.css' );
 	add_editor_style( 'assets/css/contact.css' );
+	add_editor_style( 'assets/css/projects.css' );
 }
 add_action( 'after_setup_theme', 'kacper_portfolio_editor_styles' );

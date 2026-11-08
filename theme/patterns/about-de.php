@@ -294,6 +294,15 @@ $contact_url = $contact_page ? get_permalink( $contact_page ) : home_url( '/kont
 <li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/laravel.svg' ) ); ?>" alt="" width="36" height="36" />Laravel</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/php.svg' ) ); ?>" alt="" width="36" height="36" />PHP</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/livewire.svg' ) ); ?>" alt="" width="36" height="36" />Livewire</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/tailwindcss.svg' ) ); ?>" alt="" width="36" height="36" />Tailwind CSS</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
 <li><img src="<?php echo esc_url( get_theme_file_uri( '/assets/icons/skills/python.svg' ) ); ?>" alt="" width="36" height="36" />Python</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->

@@ -24,13 +24,11 @@ Personal portfolio website for Kacper Koszarski.
 - Keep future content/data functionality outside the theme when appropriate
 
 # Coding rules
-- Keep the code simple and readable
+- Keep the code simple and readable; do not overengineer
 - Prefer semantic HTML
 - Build mobile-first
 - Consider accessibility from the beginning
-- Avoid unnecessary dependencies
-- Do not add libraries or plugins without explaining why
-- Do not overengineer simple features
+- Prefer existing solutions and dependencies; explain why before adding a library or plugin
 - Keep files modular and logically organized
 - Preserve WordPress/Gutenberg conventions
 
@@ -46,17 +44,18 @@ Personal portfolio website for Kacper Koszarski.
 - Keep commits small and focused when I ask for them
 
 # Working style
-- Respond to me in Polish
-- Explain everything in very simple language
-- Assume I am still learning
-- Work step by step
+- Respond in Polish, simply and concisely; assume I am still learning
+- Inspect only files relevant to the task and their dependencies; broaden the search when evidence requires it
 - Before making a larger architectural change, explain it and wait for approval
-- After each task explain:
-  - which files were changed
-  - what was added
-  - why it is needed
-  - how I can test it
-- After finishing one logical step, stop and wait for my "dalej"
+- Complete the requested task without pausing after routine steps; wait for "dalej" before starting a separate task
+- End with one brief summary of changed files, purpose, verification and any limitations; include manual test instructions when useful
+- Small changes do not require separate plans, reports or additional documents
+
+# Verification
+- Match verification to scope and risk: check changed behavior and affected integrations using existing tools
+- For UI changes, check relevant responsive layouts and accessibility; check languages and color modes when affected
+- Run full tests for changes spanning multiple components or requiring broad regression coverage
+- Fix errors found during verification and rerun the affected checks; report any unresolved issues or checks that could not run
 
 # Design direction
 - Modern
@@ -77,10 +76,6 @@ Personal portfolio website for Kacper Koszarski.
 
 # Project memory
 
-- At the beginning of a new session or before continuing an existing multi-step task, read PROJECT_STATE.md.
-- After completing a meaningful logical stage, update PROJECT_STATE.md if the project state or next step changed.
-- Keep PROJECT_STATE.md concise.
-- Do not use it as a chronological log.
-- Do not duplicate information available in Git history.
-- Prefer updating existing bullets instead of continuously appending new ones.
-- Keep Completed and Next Steps short and current.
+- Read PROJECT_STATE.md once at the start of a session; reread relevant sections only if context is missing or the file changed.
+- Update it only when lasting project state, decisions or next steps change, not for routine edits or changes limited to AGENTS.md.
+- Keep it concise and current: update existing bullets, keep Completed and Next Steps short, and avoid chronological logs or duplicating Git history or AGENTS.md rules.

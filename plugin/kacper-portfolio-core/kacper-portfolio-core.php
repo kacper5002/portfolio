@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/blocks/selected-projects.php';
 require_once __DIR__ . '/contact-form.php';
+require_once __DIR__ . '/project-archive.php';
 
 /**
  * Register portfolio projects with the native WordPress block editor.
@@ -334,16 +335,16 @@ add_action( 'init', 'kacper_portfolio_core_register_site_navigation' );
  */
 function kacper_portfolio_core_render_site_navigation() {
 	$labels = array(
-		'de' => array( 'Startseite', 'Über mich', 'Projekte', 'Lebenslauf', 'Kontakt', 'Hauptnavigation' ),
-		'en' => array( 'Home', 'About', 'Projects', 'Resume', 'Contact', 'Primary navigation' ),
-		'pl' => array( 'Strona główna', 'O mnie', 'Projekty', 'CV', 'Kontakt', 'Nawigacja główna' ),
+		'de' => array( 'Startseite', 'Über mich', 'Projekte', 'Kontakt', 'Hauptnavigation', 'Menü öffnen', 'Menü schließen' ),
+		'en' => array( 'Home', 'About', 'Projects', 'Contact', 'Primary navigation', 'Open menu', 'Close menu' ),
+		'pl' => array( 'Strona główna', 'O mnie', 'Projekty', 'Kontakt', 'Nawigacja główna', 'Otwórz menu', 'Zamknij menu' ),
 	);
 	$lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'de';
 	$lang = isset( $labels[ $lang ] ) ? $lang : 'de';
 	$home = function_exists( 'pll_home_url' ) ? pll_home_url( $lang ) : home_url( '/' );
 	$menu = '';
 
-	foreach ( array( 'home', 'ueber-mich', 'project', 'lebenslauf', 'kontakt' ) as $index => $key ) {
+	foreach ( array( 'home', 'ueber-mich', 'project', 'kontakt' ) as $index => $key ) {
 		$url     = '';
 		$current = false;
 		if ( 'home' === $key ) {
@@ -402,8 +403,11 @@ function kacper_portfolio_core_render_site_navigation() {
 		}
 	}
 
-	$html = '<nav ' . get_block_wrapper_attributes( array( 'class' => 'portfolio-navigation', 'aria-label' => $labels[ $lang ][5] ) ) . '>';
-	$html .= '<ul class="portfolio-navigation__menu">' . $menu . '</ul>';
+	$html = '<nav ' . get_block_wrapper_attributes( array( 'class' => 'portfolio-navigation', 'aria-label' => $labels[ $lang ][4] ) ) . '>';
+	// Render the button with the header so initialization never changes its size.
+	$html .= '<button type="button" class="hub-menu-button" aria-controls="hub-primary-menu" aria-expanded="false"';
+	$html .= ' aria-label="' . esc_attr( $labels[ $lang ][5] ) . '" data-label-open="' . esc_attr( $labels[ $lang ][5] ) . '" data-label-close="' . esc_attr( $labels[ $lang ][6] ) . '">Menu <span aria-hidden="true">+</span></button>';
+	$html .= '<ul id="hub-primary-menu" class="portfolio-navigation__menu">' . $menu . '</ul>';
 	if ( '' !== $switcher ) {
 		$html .= '<div class="portfolio-navigation__languages"><ul>' . $switcher . '</ul></div>';
 	}
