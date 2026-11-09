@@ -58,6 +58,9 @@ function kacper_portfolio_enqueue_assets() {
 	if ( is_post_type_archive( 'project' ) || is_singular( 'project' ) ) {
 		wp_enqueue_style( 'kacper-portfolio-projects', get_theme_file_uri( '/assets/css/projects.css' ), array( 'kacper-portfolio' ), filemtime( get_theme_file_path( '/assets/css/projects.css' ) ) );
 	}
+	if ( is_post_type_archive( 'project' ) ) {
+		wp_enqueue_script( 'kacper-portfolio-project-filters', get_theme_file_uri( '/assets/js/project-filters.js' ), array(), filemtime( get_theme_file_path( '/assets/js/project-filters.js' ) ), true );
+	}
 	// A brief native crossfade; no render-blocking navigation script or full-page morph.
 	wp_enqueue_style( 'kacper-portfolio-transitions', get_theme_file_uri( '/assets/css/page-transitions.css' ), array(), filemtime( get_theme_file_path( '/assets/css/page-transitions.css' ) ) );
 	if ( is_front_page() ) {

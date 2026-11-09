@@ -9,7 +9,7 @@
         },
         'project-details': {
             title: 'Projektdetails', icon: 'info-outline',
-            description: 'Jahr, Technologien und Links werden aus dem aktuellen Projekt geladen. Diese Daten im Projekt bearbeiten.',
+            description: 'Status, Jahr, Technologien und Links werden aus dem aktuellen Projekt geladen. Diese Daten im Projekt bearbeiten.',
         },
     };
     Object.entries(definitions).forEach(([key, definition]) => {

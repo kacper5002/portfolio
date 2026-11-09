@@ -1,8 +1,14 @@
-# Homepage category images
+# Generated portfolio illustrations
 
 Generated with the built-in `image_gen` tool. Original conceptual illustrations,
-not project screenshots or evidence of qualifications. Exported as 800 × 1200 JPEGs.
-The original portrait and project data are unchanged.
+not project screenshots or evidence of qualifications. Homepage category images
+are exported as 800 × 1200 JPEGs. The original portrait is unchanged.
+
+## Bachelorarbeit concept cover
+
+Asset: `projectpictures/bachelorarbeit-konzept.jpg` (1536 × 1024). Generated with the built-in `image_gen` tool and imported as the Bachelorarbeit featured image. Concept illustration, not an application screenshot.
+
+Prompt: Use case: stylized-concept. Asset type: portfolio project cover, landscape 3:2. Create a refined monochrome editorial concept illustration for an in-progress AI document management bachelor thesis. A small sculptural arrangement of off-white paper documents with abstract unreadable text lines, delicate OCR bounding boxes, and three orderly document groups connected by thin charcoal lines to a small abstract AI node. Matte paper, subtle depth and soft natural shadows on a warm light-grey seamless background. Clean, minimal, professional, black white and neutral grey only. Center the subject with generous margins so a square card crop remains balanced. All important shapes in the central 60 percent. No realistic app interface, browser frame, product screenshot, readable documents, personal data, logos, marketing text, numbers or watermark. No text at all. It must clearly be an abstract conceptual illustration, not a finished application.
 
 ## hub-projects.jpg
 

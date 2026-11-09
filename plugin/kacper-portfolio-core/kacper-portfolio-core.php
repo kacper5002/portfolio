@@ -132,6 +132,23 @@ function kacper_portfolio_core_can_edit_meta( $allowed, $meta_key, $post_id ) {
 function kacper_portfolio_core_register_project_meta() {
 	register_post_meta(
 		'project',
+		'project_status',
+		array(
+			'type'              => 'string',
+			'single'            => true,
+			'default'           => 'completed',
+			'show_in_rest'      => array(
+				'schema' => array( 'enum' => array( 'completed', 'in_progress' ) ),
+			),
+			'sanitize_callback' => static function ( $value ) {
+				return 'in_progress' === $value ? 'in_progress' : 'completed';
+			},
+			'auth_callback'     => 'kacper_portfolio_core_can_edit_meta',
+		)
+	);
+
+	register_post_meta(
+		'project',
 		'project_year',
 		array(
 			'type'              => 'integer',
@@ -184,7 +201,15 @@ function kacper_portfolio_core_render_project_meta_box( $post ) {
 	wp_nonce_field( 'kacper_portfolio_save_project_details', 'kacper_portfolio_details_nonce' );
 	$year = metadata_exists( 'post', $post->ID, 'project_year' )
 		? get_post_meta( $post->ID, 'project_year', true ) : '';
+	$status = get_post_meta( $post->ID, 'project_status', true );
 	?>
+	<p>
+		<label for="project_status"><?php esc_html_e( 'Projektstatus', 'kacper-portfolio-core' ); ?></label><br>
+		<select id="project_status" name="project_status">
+			<option value="completed" <?php selected( $status, 'completed' ); ?>><?php esc_html_e( 'Abgeschlossen', 'kacper-portfolio-core' ); ?></option>
+			<option value="in_progress" <?php selected( $status, 'in_progress' ); ?>><?php esc_html_e( 'In Entwicklung', 'kacper-portfolio-core' ); ?></option>
+		</select>
+	</p>
 	<p>
 		<label for="project_year"><?php esc_html_e( 'Jahr', 'kacper-portfolio-core' ); ?></label><br>
 		<input type="number" step="1" id="project_year" name="project_year" value="<?php echo esc_attr( $year ); ?>">
@@ -220,6 +245,11 @@ function kacper_portfolio_core_save_project_details( $post_id ) {
 
 	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		return;
+	}
+
+	if ( isset( $_POST['project_status'] )
+		&& in_array( $_POST['project_status'], array( 'completed', 'in_progress' ), true ) ) {
+		update_post_meta( $post_id, 'project_status', $_POST['project_status'] );
 	}
 
 	if ( isset( $_POST['project_year'] ) && is_string( $_POST['project_year'] ) ) {
@@ -280,6 +310,11 @@ function kacper_portfolio_core_render_project_details( $attributes, $content, $b
 	$github_url   = esc_url( get_post_meta( $post_id, 'project_github_url', true ) );
 	$live_url     = esc_url( get_post_meta( $post_id, 'project_live_url', true ) );
 	$details      = '';
+
+	if ( 'in_progress' === get_post_meta( $post_id, 'project_status', true ) ) {
+		$details .= '<dt>' . esc_html__( 'Status', 'kacper-portfolio-core' ) . '</dt>';
+		$details .= '<dd>' . esc_html__( 'In Entwicklung', 'kacper-portfolio-core' ) . '</dd>';
+	}
 
 	if ( ! empty( $year ) ) {
 		$details .= '<dt>' . esc_html__( 'Jahr', 'kacper-portfolio-core' ) . '</dt>';

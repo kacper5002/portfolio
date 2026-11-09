@@ -14,7 +14,7 @@ add_action( 'init', function () {
 	wp_register_script( 'kacper-projects-editor', get_theme_file_uri( '/assets/js/projects-editor.js' ),
 		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-server-side-render' ),
 		filemtime( __DIR__ . '/../assets/js/projects-editor.js' ), true );
-	foreach ( array( 'project-card', 'project-contact', 'project-back' ) as $name ) {
+	foreach ( array( 'project-card', 'project-contact', 'project-back', 'project-filters' ) as $name ) {
 		register_block_type( 'kacper-portfolio/' . $name, array(
 			'api_version' => 3,
 			'editor_script' => 'kacper-projects-editor',
@@ -39,29 +39,49 @@ function kacper_portfolio_render_project_card( $attributes, $content, $block ) {
 	$excerpt = $protected ? '' : wp_trim_words( wp_strip_all_tags( get_the_excerpt( $id ) ), 32 );
 	$terms = $protected ? array() : get_the_terms( $id, 'project_technology' );
 	$heading_id = wp_unique_id( 'project-card-title-' );
+	$in_progress = ! $protected && 'in_progress' === get_post_meta( $id, 'project_status', true );
+	$status_id = $in_progress ? wp_unique_id( 'project-card-status-' ) : '';
 	ob_start();
 	?>
 	<article <?php echo get_block_wrapper_attributes( array( 'class' => 'project-card' . ( $image ? '' : ' project-card--no-image' ) ) ); ?>>
-		<a class="project-card__link" href="<?php echo esc_url( get_permalink( $id ) ); ?>" aria-labelledby="<?php echo esc_attr( $heading_id ); ?>">
+		<a class="project-card__link" href="<?php echo esc_url( get_permalink( $id ) ); ?>" aria-labelledby="<?php echo esc_attr( $heading_id ); ?>"<?php if ( $in_progress ) : ?> aria-describedby="<?php echo esc_attr( $status_id ); ?>"<?php endif; ?>>
+			<?php if ( $in_progress ) : ?>
+				<span class="project-card__status" id="<?php echo esc_attr( $status_id ); ?>"><?php esc_html_e( 'In Entwicklung', 'kacper-portfolio-core' ); ?></span>
+			<?php endif; ?>
 			<?php if ( $image ) : ?>
 				<?php echo $image; ?>
 			<?php else : ?>
 				<span class="project-card__placeholder" aria-hidden="true">Projekt<?php if ( ! $protected && get_post_meta( $id, 'project_year', true ) ) { echo ' / ' . esc_html( get_post_meta( $id, 'project_year', true ) ); } ?></span>
 			<?php endif; ?>
 			<div class="project-card__info">
+				<h2 id="<?php echo esc_attr( $heading_id ); ?>"><?php echo esc_html( get_the_title( $id ) ); ?></h2>
+				<div class="project-card__reveal"><div class="project-card__reveal-inner">
 				<?php if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) : ?>
 					<ul class="project-card__tags" aria-label="Technologien">
 						<?php foreach ( $terms as $term ) : ?><li><?php echo esc_html( $term->name ); ?></li><?php endforeach; ?>
 					</ul>
 				<?php endif; ?>
-				<h2 id="<?php echo esc_attr( $heading_id ); ?>"><?php echo esc_html( get_the_title( $id ) ); ?></h2>
 				<?php if ( $excerpt ) : ?><p><?php echo esc_html( $excerpt ); ?></p><?php endif; ?>
 				<span class="project-card__action">Projekt ansehen <span aria-hidden="true">↗</span></span>
+				</div></div>
 			</div>
 		</a>
 	</article>
 	<?php
 	return ob_get_clean();
+}
+
+function kacper_portfolio_render_project_filters() {
+	$active = function_exists( 'kacper_portfolio_core_project_category_filter' ) ? kacper_portfolio_core_project_category_filter() : '';
+	$base = kacper_portfolio_projects_archive_url();
+	$index = array_search( $active, array( '', 'anwendungen', 'websites' ), true );
+	$html = '<nav ' . get_block_wrapper_attributes( array( 'class' => 'projects-filters', 'style' => '--filter-index:' . (int) $index ) ) . ' aria-label="Projektkategorien">';
+	$html .= '<span class="projects-filters__indicator" aria-hidden="true"></span>';
+	foreach ( array( '' => 'Alle', 'anwendungen' => 'Anwendungen', 'websites' => 'Websites' ) as $slug => $label ) {
+		$url = $slug ? add_query_arg( 'project_category', $slug, $base ) : $base;
+		$html .= '<a href="' . esc_url( $url ) . '"' . ( $active === $slug ? ' aria-current="page"' : '' ) . '>' . esc_html( $label ) . '</a>';
+	}
+	return $html . '</nav>';
 }
 
 function kacper_portfolio_render_project_contact() {

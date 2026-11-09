@@ -30,6 +30,7 @@ body.portfolio-about .about-page__content > .wp-block-post-content { max-width: 
 .about-story *, .about-story *::before, .about-story *::after { box-sizing: border-box; }
 .about-story .wp-block-group { min-width: 0; }
 .about-story :where(p, h1, h2, h3, ul, figure, .wp-block-group, .wp-block-buttons) { margin: 0; }
+.about-story > section + section { margin-top: clamp(12px, 1.5vw, 20px); }
 .about-story :where(h2, h3) { font-weight: 600; letter-spacing: -.045em; text-wrap: balance; }
 .about-story h2 { font-size: var(--about-heading); line-height: 1.1; }
 .about-story h3 { font-size: var(--about-subheading); line-height: 1.25; }

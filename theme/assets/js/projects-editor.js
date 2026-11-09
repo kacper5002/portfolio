@@ -5,6 +5,7 @@
         'project-card': 'Projektkarte',
         'project-contact': 'Kontakt aufnehmen',
         'project-back': 'Zurück zu den Projekten',
+        'project-filters': 'Projektkategorien',
     };
     Object.entries(titles).forEach(([key, title]) => {
         const name = `kacper-portfolio/${key}`;
